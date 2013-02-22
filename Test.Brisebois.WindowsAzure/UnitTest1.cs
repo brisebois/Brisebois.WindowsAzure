@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using Brisebois.WindowsAzure;
+using Brisebois.WindowsAzure.REST;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Test.Brisebois.WindowsAzure
