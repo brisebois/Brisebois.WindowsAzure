@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+  <configSections>
+    <section name="dataCacheClients" type="Microsoft.ApplicationServer.Caching.DataCacheClientsSection, Microsoft.ApplicationServer.Caching.Core" allowLocation="true" allowDefinition="Everywhere"/>
+    <section name="cacheDiagnostics" type="Microsoft.ApplicationServer.Caching.AzureCommon.DiagnosticsConfigurationSection, Microsoft.ApplicationServer.Caching.AzureCommon" allowLocation="true" allowDefinition="Everywhere" />
+  </configSections>
+
+  <dataCacheClients>
+    <dataCacheClient name="default">
+      <autoDiscover isEnabled="true" identifier="[cache cluster role name]"/>
+      <!--<localCache isEnabled="true" sync="TimeoutBased" objectCount="100000" ttlValue="300" />-->
+    </dataCacheClient>
+  </dataCacheClients>
+
+  <cacheDiagnostics>
+    <crashDump dumpLevel="Off" dumpStorageQuotaInMB="100"/>
+  </cacheDiagnostics>
+
+  <system.web>
+    <!-- Windows Azure Caching session state provider -->
+    <!--<sessionState mode="Custom" customProvider="AFCacheSessionStateProvider">
+      <providers>
+        <add name="AFCacheSessionStateProvider" type="Microsoft.Web.DistributedCache.DistributedCacheSessionStateStoreProvider, Microsoft.Web.DistributedCache" cacheName="default" dataCacheClientName="default" applicationName="AFCacheSessionState"/>
+      </providers>
+    </sessionState>-->
+
+    <!-- Windows Azure Caching output caching provider -->
+    <!--<caching>
+      <outputCache defaultProvider="AFCacheOutputCacheProvider">
+        <providers>
+          <add name="AFCacheOutputCacheProvider" type="Microsoft.Web.DistributedCache.DistributedCacheOutputCacheProvider, Microsoft.Web.DistributedCache" cacheName="default" dataCacheClientName="default" applicationName="AFCacheOutputCache" />
+        </providers>
+      </outputCache>
+    </caching>-->
+  </system.web>
+
+</configuration>
