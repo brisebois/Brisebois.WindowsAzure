@@ -5,9 +5,10 @@ namespace Brisebois.WindowsAzure.REST
 {
     public static class RetryPolicyFactory
     {
-        public static RetryPolicy MakeHttpRetryPolicy()
+        public static RetryPolicy MakeHttpRetryPolicy(int count = 10, bool notFoundIsTransient= false)
         {
-            return Exponential(new HttpTransientErrorDetectionStrategy(true));
+            var httpTransientErrorDetectionStrategy = new HttpTransientErrorDetectionStrategy(notFoundIsTransient);
+            return Exponential(httpTransientErrorDetectionStrategy,count);
         }
 
         private static RetryPolicy Exponential(ITransientErrorDetectionStrategy stgy,

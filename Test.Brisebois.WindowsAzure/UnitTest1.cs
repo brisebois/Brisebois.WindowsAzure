@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using Brisebois.WindowsAzure;
 using Brisebois.WindowsAzure.REST;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -10,17 +9,19 @@ namespace Test.Brisebois.WindowsAzure
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestMethod()
         {
             try
             {
+                var notFoundIsTransient = true;
+                var progress = new Progress<string>(Console.WriteLine);
+
                 var call = RestClient.Uri("http://brisebois.com/api/configurations")
-                                     .Parameter("_token", Guid.NewGuid().ToString())
-                                     .GetAsync(OnError());
+                                        .Retry(2, notFoundIsTransient)
+                                        .Parameter("_token", Guid.NewGuid().ToString())
+                                        .GetAsync(OnError, progress);
 
                 call.Wait();
-
-                Console.WriteLine(call.Result);
             }
             catch (Exception ex)
             {
@@ -28,20 +29,47 @@ namespace Test.Brisebois.WindowsAzure
             }
         }
         
-        private static Action<Uri, HttpStatusCode, string> OnError()
+        [TestMethod]
+        public void TestMethodNotTransient()
         {
-            return (uri, code, arg3) =>
-                {
-                    switch (code)
+            try
+            {
+                var notFoundIsTransient = true;
+                var progress = new Progress<string>(Console.WriteLine);
+
+                var call = RestClient.Uri("http://brisebois.com/api/configurations")
+                                        .Retry(2)
+                                        .Parameter("_token", Guid.NewGuid().ToString())
+                                        .GetAsync(OnError, progress);
+
+                call.Wait();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        private void OnError(Uri uri, HttpStatusCode statusCode, string content)
+        {
+            switch (statusCode)
+            {
+                case HttpStatusCode.NotFound:
                     {
-                        case HttpStatusCode.Found:
-                            Console.WriteLine("Not Found");
-                            break;
-                        case HttpStatusCode.Unauthorized:
-                            Console.WriteLine("You were logged out");
-                            break;
+                        // TODO: do something
                     }
-                };
+                    break;
+                case HttpStatusCode.Unauthorized:
+                    {
+                        // TODO: log user out
+                    }
+                    break;
+                default:
+                    {
+                        var message = string.Format("{1}{0}{0}{2}", Environment.NewLine, uri, content);
+                        throw new RestClientException(statusCode, message);    
+                    }
+            }
         }
     }
 }
