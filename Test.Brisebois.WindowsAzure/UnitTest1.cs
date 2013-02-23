@@ -17,7 +17,7 @@ namespace Test.Brisebois.WindowsAzure
                 var progress = new Progress<string>(Console.WriteLine);
 
                 var call = RestClient.Uri("http://brisebois.com/api/configurations")
-                                        .Retry(2, notFoundIsTransient)
+                                        .Retry(6, notFoundIsTransient)
                                         .Parameter("_token", Guid.NewGuid().ToString())
                                         .GetAsync(OnError, progress);
 
@@ -40,6 +40,25 @@ namespace Test.Brisebois.WindowsAzure
                 var call = RestClient.Uri("http://brisebois.com/api/configurations")
                                         .Retry(2)
                                         .Parameter("_token", Guid.NewGuid().ToString())
+                                        .GetAsync(OnError, progress);
+
+                call.Wait();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void TestMethodGetGoogleHomePage()
+        {
+            try
+            {
+                var progress = new Progress<string>(Console.WriteLine);
+
+                var call = RestClient.Uri("http://www.google.com")
+                                        .Retry(2)
                                         .GetAsync(OnError, progress);
 
                 call.Wait();

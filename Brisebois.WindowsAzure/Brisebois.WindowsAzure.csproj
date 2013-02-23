@@ -96,10 +96,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Blobs\BlobContainerWorker.cs" />
-    <Compile Include="Blobs\BlocCompressor.cs" />
+    <Compile Include="Blobs\BlobCompressor.cs" />
     <Compile Include="DelayCalculator.cs" />
     <Compile Include="Jobs\JobSchedule.cs" />
     <Compile Include="PollingTask.cs" />
+    <Compile Include="REST\RestClientException.cs" />
     <Compile Include="REST\StreamRestClient.cs" />
     <Compile Include="REST\StringRestClient.cs" />
     <Compile Include="REST\WebCLientExtentions.cs" />

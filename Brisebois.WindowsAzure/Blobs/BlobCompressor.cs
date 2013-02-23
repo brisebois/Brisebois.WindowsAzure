@@ -7,11 +7,11 @@ using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace Brisebois.WindowsAzure.Blobs
 {
-    public class BlocCompressor : BlobContainerWorker
+    public class BlobCompressor : BlobContainerWorker
     {
         private const string CompressedFlag = "Compressed";
 
-        public BlocCompressor(string connectionString, string containerName)
+        public BlobCompressor(string connectionString, string containerName)
             : base(connectionString, containerName, false)
         {
         }
