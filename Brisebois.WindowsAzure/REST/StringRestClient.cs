@@ -52,22 +52,18 @@ namespace Brisebois.WindowsAzure.REST
 
                         restClient.SetHeaders(client);
 
-                        if (progress != null)
-                        {
-                            progress.Report(address.ToString());
-                            progress.Report(client.Trace());
-                        }
+                        client.TraceRequest(address,method,data, progress);
 
                         var watch = new Stopwatch();
                         watch.Start();
                         client.UploadString(address, method, data);
                         watch.Stop();
-
-                        if (progress != null)
-                            progress.Report(string.Format("{0} {1}\n completed in {2} seconds",
-                                                          method,
-                                                          address,
-                                                          watch.Elapsed.TotalSeconds));
+                        
+                        client.TraceResponse(address,
+                                             method,
+                                             string.Format("Completed in {0} seconds",
+                                                           watch.Elapsed.TotalSeconds),
+                                             progress);
                     }
 
                     return "Done";
@@ -75,9 +71,10 @@ namespace Brisebois.WindowsAzure.REST
         }
 
 
-        public void ContentType(string contentType)
+        public StringRestClient ContentType(string contentType)
         {
             restClient.ContentType(contentType);
+            return this;
         }
     }
 }

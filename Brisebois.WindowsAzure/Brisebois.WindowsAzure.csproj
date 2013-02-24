@@ -103,7 +103,7 @@
     <Compile Include="REST\RestClientException.cs" />
     <Compile Include="REST\StreamRestClient.cs" />
     <Compile Include="REST\StringRestClient.cs" />
-    <Compile Include="REST\WebCLientExtentions.cs" />
+    <Compile Include="REST\WebClientExtentions.cs" />
     <Compile Include="TableStorage\Entry.cs" />
     <Compile Include="TableStorage\Logger.cs" />
     <Compile Include="SQL\ReliableBulkWriter.cs" />

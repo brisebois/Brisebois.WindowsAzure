@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -43,29 +42,14 @@ namespace Brisebois.WindowsAzure.REST
                 var address = PrepareUri();
                 SetHeaders(client);
 
-                if (progress != null)
-                    progress.Report(string.Format("[{0}] GET {1}{2}{3}", 
-                                                  GetTimeString(), 
-                                                  address, 
-                                                  Environment.NewLine, 
-                                                  client.Trace()));
+                client.TraceRequest(address,"GET", progress);
 
                 var responseString = await client.DownloadStringTaskAsync(address);
 
-                if (progress != null)
-                    progress.Report(string.Format("[{0}] GET {1}{3}{2}",
-                                    GetTimeString(),
-                                    address, 
-                                    responseString, 
-                                    Environment.NewLine));
+                client.TraceResponse(address,"GET",responseString,progress);
 
                 return responseString;
             }
-        }
-
-        private static string GetTimeString()
-        {
-            return DateTime.Now.ToString("yyyy:MM:dd hh:mm:ss");
         }
 
         public async Task<Stream> GetStreamAsync(Action<Uri, HttpStatusCode, Stream> onError,
@@ -81,6 +65,41 @@ namespace Brisebois.WindowsAzure.REST
             }
         }
 
+        public async Task<string> DeleteAsync(Action<Uri, HttpStatusCode, string> onError,
+                                              IProgress<string> progress = null)
+        {
+            try
+            {
+                return await retryPolicy.ExecuteAsync(() => DeleteAsync(progress));
+            }
+            catch (Exception ex)
+            {
+                return ExecuteOnError(onError, ex, progress);
+            }
+        }
+
+        private Task<string> DeleteAsync(IProgress<string> progress)
+        {
+            var deleteTask = Task.Run(() =>
+                {
+                    var address = PrepareUri();
+
+                    var request = WebRequest.Create(address);
+                    request.Method = "DELETE";
+
+                    SetHeaders(request);
+
+                    request.Trace(progress);
+
+                    var response = (HttpWebResponse) request.GetResponse();
+
+                    response.Trace(progress);
+
+                    return "Done";
+                });
+            return deleteTask;
+        }
+
         private async Task<Stream> DownloadStreamAsync(IProgress<string> progress)
         {
             var downloadTask = Task.Run(() =>
@@ -91,20 +110,11 @@ namespace Brisebois.WindowsAzure.REST
 
                         SetHeaders(client);
 
-                        if (progress != null)
-                            progress.Report(string.Format("[{0}] GET {1}{2}{3}", 
-                                                          GetTimeString(), 
-                                                          address, 
-                                                          Environment.NewLine, 
-                                                          client.Trace()));
+                        client.TraceRequest(address, "GET", progress);
 
                         var bytes = client.DownloadData(address);
 
-                        if (progress != null)
-                            progress.Report(string.Format("[{0}] GET {1}\nLength :{2}", 
-                                                          GetTimeString(), 
-                                                          address, 
-                                                          bytes.Length));
+                        client.TraceResponse(address, "GET", "Length="+ bytes.Length, progress);
 
                         return new MemoryStream(bytes);
                     }
@@ -128,9 +138,10 @@ namespace Brisebois.WindowsAzure.REST
            return  new StringRestClient(this, data);
         }
 
-        public void ContentType(string contentType = "application/x-www-form-urlencoded")
+        public RestClient ContentType(string contentType = "application/x-www-form-urlencoded")
         {
             Header("Content-Type", contentType);
+            return this;
         }
 
         public void Header(string key, string value)
@@ -145,10 +156,14 @@ namespace Brisebois.WindowsAzure.REST
         {
             headers
                 .ToList()
-                .ForEach(kv =>
-                {
-                    client.Headers.Add(kv.Key, kv.Value);
-                });
+                .ForEach(kv => client.Headers.Add(kv.Key, kv.Value));
+        }
+
+        internal void SetHeaders(WebRequest request)
+        {
+            headers
+                .ToList()
+                .ForEach(kv => request.Headers.Add(kv.Key, kv.Value));
         }
 
         internal Uri PrepareUri()
@@ -175,7 +190,7 @@ namespace Brisebois.WindowsAzure.REST
 
             var responseContent = response.GetResponseContent();
 
-            response.TradeResponse(progress);
+            response.TraceResponse(progress);
 
             onError(uri, response.StatusCode, responseContent);
 

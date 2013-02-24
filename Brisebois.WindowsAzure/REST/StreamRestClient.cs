@@ -42,9 +42,10 @@ namespace Brisebois.WindowsAzure.REST
             }
         }
 
-        public void ContentType(string contentType)
+        public StreamRestClient ContentType(string contentType)
         {
             restClient.ContentType(contentType);
+            return this;
         }
 
         private Task<string> UploadBytesAsync(string method, IProgress<string> progress)
@@ -57,22 +58,18 @@ namespace Brisebois.WindowsAzure.REST
 
                         restClient.SetHeaders(client);
 
-                        if (progress != null)
-                        {
-                            progress.Report(address.ToString());
-                            progress.Report(client.Trace());
-                        }
+                        client.TraceRequest(address,method, progress);
 
                         var watch = new Stopwatch();
                         watch.Start();
                         client.UploadData(address, method, content);
                         watch.Stop();
 
-                        if (progress != null)
-                            progress.Report(string.Format("{0} {1}\n completed in {2} seconds",
-                                                          method,
-                                                          address,
-                                                          watch.Elapsed.TotalSeconds));
+                        client.TraceResponse(address,
+                                             method, 
+                                             string.Format("Completed in {0} seconds", 
+                                                           watch.Elapsed.TotalSeconds),
+                                             progress);
                     }
 
                     return "Done";
