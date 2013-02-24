@@ -8,6 +8,9 @@ using Microsoft.WindowsAzure.Storage.RetryPolicies;
 
 namespace Brisebois.WindowsAzure.Queues
 {
+    /// <summary>
+    /// Details: https://alexandrebrisebois.wordpress.com/2013/02/19/windows-azure-queue-storage-service-polling-task/
+    /// </summary>
     public abstract class QueueWorker : PollingTask<CloudQueueMessage>
     {
         private readonly CloudQueueClient client;

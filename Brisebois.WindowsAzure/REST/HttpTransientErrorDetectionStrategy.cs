@@ -5,6 +5,9 @@ using Microsoft.Practices.TransientFaultHandling;
 
 namespace Brisebois.WindowsAzure.REST
 {
+    /// <summary>
+    /// Details: https://alexandrebrisebois.wordpress.com/2013/02/21/defining-an-http-transient-error-detection-strategy-for-rest-calls/
+    /// </summary>
     public class HttpTransientErrorDetectionStrategy
         : ITransientErrorDetectionStrategy
     {

@@ -2,6 +2,9 @@
 
 namespace Brisebois.WindowsAzure
 {
+    /// <summary>
+    /// Details: https://alexandrebrisebois.wordpress.com/2013/02/19/calculating-an-exponential-back-off-delay-based-on-failed-attempts/
+    /// </summary>
     public static class DelayCalculator
     {
         public static Int64 ExponentialDelay(int failedAttempts,

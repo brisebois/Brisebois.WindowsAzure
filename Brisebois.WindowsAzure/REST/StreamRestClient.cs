@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Brisebois.WindowsAzure.REST
 {
+    /// <summary>
+    /// Details: 
+    /// </summary>
     public class StreamRestClient
     {
         private readonly RestClient restClient;

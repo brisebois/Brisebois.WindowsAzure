@@ -8,6 +8,9 @@ using Microsoft.Practices.TransientFaultHandling;
 
 namespace Brisebois.WindowsAzure.REST
 {
+    /// <summary>
+    /// Details: 
+    /// </summary>
     public class RestClient
     {
         private readonly Uri uri;

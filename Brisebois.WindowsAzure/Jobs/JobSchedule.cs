@@ -6,6 +6,9 @@ using Quartz.Impl;
 
 namespace Brisebois.WindowsAzure.Jobs
 {
+    /// <summary>
+    /// Details: 
+    /// </summary>
     public class JobSchedule
     {
         private readonly IScheduler sched;

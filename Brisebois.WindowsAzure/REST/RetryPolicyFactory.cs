@@ -5,6 +5,9 @@ namespace Brisebois.WindowsAzure.REST
 {
 public static class RetryPolicyFactory
 {
+    /// <summary>
+    /// Details: 
+    /// </summary>
     public static RetryPolicy MakeHttpRetryPolicy(int count = 10, 
                                                   bool notFoundIsTransient= false)
     {

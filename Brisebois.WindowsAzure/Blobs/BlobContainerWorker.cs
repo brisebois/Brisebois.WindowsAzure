@@ -8,6 +8,9 @@ using Microsoft.WindowsAzure.Storage.RetryPolicies;
 
 namespace Brisebois.WindowsAzure.Blobs
 {
+    /// <summary>
+    /// Details: https://alexandrebrisebois.wordpress.com/2013/02/20/windows-azure-blob-storage-polling-task/
+    /// </summary>
     public abstract class BlobContainerWorker : PollingTask<IListBlobItem>
     {
         private readonly bool deleteBlobOnCompleted;
