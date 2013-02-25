@@ -9,7 +9,7 @@ using Microsoft.Practices.TransientFaultHandling;
 namespace Brisebois.WindowsAzure.REST
 {
     /// <summary>
-    /// Details: 
+    /// Details: http://alexandrebrisebois.wordpress.com/2013/02/23/asynchronously-calling-rest-services-from-a-windows-azure-role/
     /// </summary>
     public class RestClient
     {

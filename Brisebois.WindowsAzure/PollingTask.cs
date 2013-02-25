@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Brisebois.WindowsAzure
 {
     /// <summary>
-    /// Details: https://alexandrebrisebois.wordpress.com/2013/02/19/polling-tasks-are-great-building-blocks-for-windows-azure-roles/
+    /// Details: http://alexandrebrisebois.wordpress.com/2013/02/19/polling-tasks-are-great-building-blocks-for-windows-azure-roles/
     /// </summary>
     public abstract class PollingTask<TWorkItem>
     {

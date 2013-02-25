@@ -8,7 +8,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 namespace Brisebois.WindowsAzure.Blobs
 {
     /// <summary>
-    /// Details: https://alexandrebrisebois.wordpress.com/2013/02/20/windows-azure-blob-storage-polling-task/
+    /// Details: http://alexandrebrisebois.wordpress.com/2013/02/20/windows-azure-blob-storage-polling-task/
     /// </summary>
     public class BlobCompressor : BlobContainerWorker
     {

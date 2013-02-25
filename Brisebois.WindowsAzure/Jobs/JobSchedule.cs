@@ -23,7 +23,7 @@ namespace Brisebois.WindowsAzure.Jobs
         
         /// <param name="scheduleConfig">Setting Key from your CloudConfigurations, value format "hh:mm;hh:mm;"</param>
         /// <param name="jobType">must inherit from IJob</param>
-        /// <param name="timeZoneId">See http://alexandrebrisebois.wordpress.com/2013/01/20/using-quartz-net-to-schedule-jobs-in-windows-azure-worker-roles/#more-658 for Ids</param>
+        /// <param name="timeZoneId">See http://alexandrebrisebois.wordpress.com/2013/01/20/using-quartz-net-to-schedule-jobs-in-windows-azure-worker-roles/ for Ids</param>
         public void ScheduleDailyJob(string scheduleConfig, Type jobType, string timeZoneId = "Eastern Standard Time")
         {
             var schedule = CloudConfigurationManager.GetSetting(scheduleConfig);

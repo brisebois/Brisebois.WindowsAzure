@@ -5,7 +5,7 @@ using Microsoft.WindowsAzure.Storage.Table.DataServices;
 namespace Brisebois.WindowsAzure.TableStorage
 {
     /// <summary>
-    /// Details: https://alexandrebrisebois.wordpress.com/2013/02/08/service-logger-for-windows-azure-roles-using-table-storage-service/
+    /// Details: http://alexandrebrisebois.wordpress.com/2013/02/08/service-logger-for-windows-azure-roles-using-table-storage-service/
     /// </summary>
     public class Entry : TableServiceEntity
     {

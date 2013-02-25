@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Brisebois.WindowsAzure</id>
+    <version>1.0.0.3</version>
+    <title />
+    <authors>Alexandre Brisebois</authors>
+    <owners>Alexandre Brisebois</owners>
+    <projectUrl>https://github.com/brisebois/Brisebois.WindowsAzure</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>These are tools I use on a daily basis when I work in and around Windows Azure.
+
+Find examples and documentation @
+http://alexandrebrisebois.wordpress.com</description>
+    <copyright>Alexandre Brisebois</copyright>
+    <language>en-US</language>
+    <tags>Windows Azure</tags>
+    <dependencies>
+      <dependency id="EnterpriseLibrary.WindowsAzure.TransientFaultHandling" version="5.1.1212.0" />
+      <dependency id="Quartz" version="2.1.2" />
+      <dependency id="WindowsAzure.Storage" version="2.0.4.0" />
+    </dependencies>
+    <references>
+      <reference file="Brisebois.WindowsAzure.dll" />
+    </references>
+  </metadata>
+</package>

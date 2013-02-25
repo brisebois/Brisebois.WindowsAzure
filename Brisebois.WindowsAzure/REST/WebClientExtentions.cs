@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Brisebois.WindowsAzure.REST
 {
+    /// <summary>
+    /// Details: http://alexandrebrisebois.wordpress.com/2013/02/23/asynchronously-calling-rest-services-from-a-windows-azure-role/
+    /// </summary>
     public static class WebClientExtentions
     {
         public static void Trace(this WebRequest request,

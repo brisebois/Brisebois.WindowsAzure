@@ -11,7 +11,7 @@ using Microsoft.WindowsAzure;
 namespace Brisebois.WindowsAzure.SQL
 {
     /// <summary>
-    /// Details: https://alexandrebrisebois.wordpress.com/2013/02/16/using-sqlbulkcopy-to-insert-massive-amounts-of-data-into-windows-azure-sql-database/
+    /// Details: http://alexandrebrisebois.wordpress.com/2013/02/16/using-sqlbulkcopy-to-insert-massive-amounts-of-data-into-windows-azure-sql-database/
     /// </summary>
     public class ReliableBulkWriter
     {

@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brisebois.WindowsAzure", "B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Brisebois.WindowsAzure", "Test.Brisebois.WindowsAzure\Test.Brisebois.WindowsAzure.csproj", "{1B41E1D9-E37B-4C1F-8E0E-3E0E9A903AB6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Brisebois.WindowsAzure.NugetPackage", "Test.Brisebois.WindowsAzure.NugetPackage\Test.Brisebois.WindowsAzure.NugetPackage.csproj", "{A8EE660E-312B-4403-A2CE-8CBE481598B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{1B41E1D9-E37B-4C1F-8E0E-3E0E9A903AB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B41E1D9-E37B-4C1F-8E0E-3E0E9A903AB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B41E1D9-E37B-4C1F-8E0E-3E0E9A903AB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8EE660E-312B-4403-A2CE-8CBE481598B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8EE660E-312B-4403-A2CE-8CBE481598B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8EE660E-312B-4403-A2CE-8CBE481598B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8EE660E-312B-4403-A2CE-8CBE481598B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
