@@ -99,7 +99,9 @@
     <Compile Include="Blobs\BlobContainerWorker.cs" />
     <Compile Include="Blobs\BlobCompressor.cs" />
     <Compile Include="DelayCalculator.cs" />
+    <Compile Include="ModelQuery.cs" />
     <Compile Include="Jobs\JobSchedule.cs" />
+    <Compile Include="ModelCommand.cs" />
     <Compile Include="PollingTask.cs" />
     <Compile Include="REST\RestClientException.cs" />
     <Compile Include="REST\StreamRestClient.cs" />
@@ -118,7 +120,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="app.config.transform" />
-    <None Include="dependencies.config" />
     <None Include="web.config.transform" />
     <None Include="packages.config" />
   </ItemGroup>
