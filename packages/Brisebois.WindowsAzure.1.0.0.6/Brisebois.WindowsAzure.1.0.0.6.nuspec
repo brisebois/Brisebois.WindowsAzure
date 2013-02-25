@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Brisebois.WindowsAzure</id>
-    <version>1.0.0.3</version>
+    <version>1.0.0.6</version>
     <title />
     <authors>Alexandre Brisebois</authors>
     <owners>Alexandre Brisebois</owners>
@@ -12,6 +12,12 @@
 
 Find examples and documentation @
 http://alexandrebrisebois.wordpress.com</description>
+    <releaseNotes>getting the 
+
+App.Config 
+Web.Config
+
+transformations to work</releaseNotes>
     <copyright>Alexandre Brisebois</copyright>
     <language>en-US</language>
     <tags>Windows Azure</tags>
