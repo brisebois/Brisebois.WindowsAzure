@@ -134,7 +134,7 @@ namespace Brisebois.WindowsAzure.REST
                                         IProgress<string> progress)
         {
             if (progress == null) return;
-
+          
             TraceRequest(client,address,httpMethod,string.Empty,progress);
         }
 

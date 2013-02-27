@@ -60,8 +60,8 @@ namespace Brisebois.WindowsAzure.REST
                         var address = restClient.PrepareUri();
 
                         restClient.SetHeaders(client);
-
-                        client.TraceRequest(address,method, progress);
+                        
+                        client.TraceRequest(address, method, progress);
 
                         var watch = new Stopwatch();
                         watch.Start();
@@ -69,10 +69,10 @@ namespace Brisebois.WindowsAzure.REST
                         watch.Stop();
 
                         client.TraceResponse(address,
-                                             method, 
-                                             string.Format("Completed in {0} seconds", 
-                                                           watch.Elapsed.TotalSeconds),
-                                             progress);
+                                                  method,
+                                                  string.Format("Completed in {0} seconds",
+                                                                watch.Elapsed.TotalSeconds),
+                                                  progress);
                     }
 
                     return "Done";

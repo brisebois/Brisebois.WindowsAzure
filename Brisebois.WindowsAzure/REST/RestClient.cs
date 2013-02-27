@@ -24,7 +24,6 @@ namespace Brisebois.WindowsAzure.REST
             retryPolicy = RetryPolicyFactory.MakeHttpRetryPolicy();
             this.uri = uri;
         }
-
         public async Task<string> GetAsync(Action<Uri, HttpStatusCode, string> onError,
                                            IProgress<string> progress = null)
         {
@@ -45,11 +44,12 @@ namespace Brisebois.WindowsAzure.REST
                 var address = PrepareUri();
                 SetHeaders(client);
 
-                client.TraceRequest(address,"GET", progress);
+
+                client.TraceRequest(address, "GET", progress);
 
                 var responseString = await client.DownloadStringTaskAsync(address);
 
-                client.TraceResponse(address,"GET",responseString,progress);
+                client.TraceResponse(address, "GET", responseString, progress);
 
                 return responseString;
             }
@@ -94,8 +94,8 @@ namespace Brisebois.WindowsAzure.REST
 
                     request.Trace(progress);
 
-                    var response = (HttpWebResponse) request.GetResponse();
-
+                    var response = (HttpWebResponse)request.GetResponse();
+                    
                     response.Trace(progress);
 
                     return "Done";
@@ -117,7 +117,7 @@ namespace Brisebois.WindowsAzure.REST
 
                         var bytes = client.DownloadData(address);
 
-                        client.TraceResponse(address, "GET", "Length="+ bytes.Length, progress);
+                        client.TraceResponse(address, "GET", "Length=" + bytes.Length, progress);
 
                         return new MemoryStream(bytes);
                     }
@@ -138,7 +138,7 @@ namespace Brisebois.WindowsAzure.REST
 
         public StringRestClient Content(string data)
         {
-           return  new StringRestClient(this, data);
+            return new StringRestClient(this, data);
         }
 
         public RestClient ContentType(string contentType = "application/x-www-form-urlencoded")
@@ -199,7 +199,7 @@ namespace Brisebois.WindowsAzure.REST
 
             return responseContent;
         }
-    
+
         internal Stream ExecuteOnError(Action<Uri, HttpStatusCode, Stream> onError,
                                       Exception ex)
         {
@@ -210,7 +210,7 @@ namespace Brisebois.WindowsAzure.REST
 
             return responseStream;
         }
-        
+
         private HttpWebResponse GetHttpWebResponse(Exception ex)
         {
             var we = ex as WebException;

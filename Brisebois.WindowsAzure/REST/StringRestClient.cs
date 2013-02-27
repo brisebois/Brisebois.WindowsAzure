@@ -54,8 +54,8 @@ namespace Brisebois.WindowsAzure.REST
                         var address = restClient.PrepareUri();
 
                         restClient.SetHeaders(client);
-
-                        client.TraceRequest(address,method,data, progress);
+                        
+                        client.TraceRequest(address, method, data, progress);
 
                         var watch = new Stopwatch();
                         watch.Start();

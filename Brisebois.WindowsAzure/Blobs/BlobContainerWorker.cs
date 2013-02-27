@@ -17,7 +17,33 @@ namespace Brisebois.WindowsAzure.Blobs
         protected readonly CloudBlobClient client;
         protected readonly CloudBlobContainer container;
         private readonly int? batchSize;
+        private readonly BlobListingDetails blobListnigDetails = BlobListingDetails.Metadata;
 
+        /// <summary>
+        /// A base class used to work with Blob Containers
+        /// </summary>
+        /// <param name="connectionString">Cloud Connection String</param>
+        /// <param name="containerName">Blob Container Name</param>
+        /// <param name="listingDetails">BlobListingDetails specify the type of informations that is returned by the GetWork method</param>
+        /// <param name="deleteBlobOnCompleted">specifies is a bloob needs to be deleted once it has been treated</param>
+        /// <param name="batchSize">Number of blobs to read from the top of the container</param>
+        protected BlobContainerWorker(string connectionString,
+                                      string containerName,
+                                      BlobListingDetails listingDetails,
+                                      bool deleteBlobOnCompleted = true,
+                                      int? batchSize = null)
+            : this(connectionString,containerName,deleteBlobOnCompleted,batchSize)
+        {
+            blobListnigDetails = listingDetails;
+        }
+
+        /// <summary>
+        /// A base class used to work with Blob Containers
+        /// </summary>
+        /// <param name="connectionString">Cloud Connection String</param>
+        /// <param name="containerName">Blob Container Name</param>
+        /// <param name="deleteBlobOnCompleted">specifies is a bloob needs to be deleted once it has been treated</param>
+        /// <param name="batchSize">Number of blobs to read from the top of the container</param>
         protected BlobContainerWorker(string connectionString,
                                       string containerName,
                                       bool deleteBlobOnCompleted = true,
@@ -62,11 +88,11 @@ namespace Brisebois.WindowsAzure.Blobs
         protected override ICollection<IListBlobItem> GetWork()
         {
             if (batchSize.HasValue)
-                return container.ListBlobs("", true, BlobListingDetails.Metadata)
+                return container.ListBlobs("", true, blobListnigDetails)
                                 .Take(batchSize.Value)
                                 .ToList();
 
-            return container.ListBlobs("", true, BlobListingDetails.Metadata)
+            return container.ListBlobs("", true, blobListnigDetails)
                             .ToList();
         }
     }

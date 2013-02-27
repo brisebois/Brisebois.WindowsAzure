@@ -14,6 +14,11 @@ namespace Brisebois.WindowsAzure.Blobs
     {
         private const string CompressedFlag = "Compressed";
 
+        /// <summary>
+        /// Keep Blobs compressed within a specific container
+        /// </summary>
+        /// <param name="connectionString">Cloud Connection String</param>
+        /// <param name="containerName">Blob Container Name</param>
         public BlobCompressor(string connectionString, string containerName)
             : base(connectionString, containerName, false)
         {

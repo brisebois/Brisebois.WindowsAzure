@@ -11,7 +11,7 @@ namespace Test.Brisebois.WindowsAzure
     public class UnitTest1
     {
 
-
+        
         [TestMethod]
         public void TestMethod()
         {
