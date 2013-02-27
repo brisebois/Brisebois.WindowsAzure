@@ -15,6 +15,13 @@ namespace Brisebois.WindowsAzure
         private Task internalTask;
         private readonly CancellationTokenSource source;
         private int attempts;
+        private readonly int maxDelayInSeconds = 1024;
+
+        protected PollingTask(int maxBackoffDelayInSeconds)
+            : this()
+        {
+            maxDelayInSeconds = maxBackoffDelayInSeconds;
+        }
 
         protected PollingTask()
         {
@@ -87,7 +94,7 @@ namespace Brisebois.WindowsAzure
 
         private TimeSpan GetTimeoutAsTimeSpan()
         {
-            var timeout = DelayCalculator.ExponentialDelay(attempts);
+            var timeout = DelayCalculator.ExponentialDelay(attempts,maxDelayInSeconds);
 
             var seconds = TimeSpan.FromSeconds(timeout);
             return seconds;

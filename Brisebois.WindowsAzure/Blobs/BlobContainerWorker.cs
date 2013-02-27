@@ -11,7 +11,8 @@ namespace Brisebois.WindowsAzure.Blobs
     /// <summary>
     /// Details: http://alexandrebrisebois.wordpress.com/2013/02/20/windows-azure-blob-storage-polling-task/
     /// </summary>
-    public abstract class BlobContainerWorker : PollingTask<IListBlobItem>
+    public abstract class BlobContainerWorker 
+        : PollingTask<IListBlobItem>
     {
         private readonly bool deleteBlobOnCompleted;
         protected readonly CloudBlobClient client;
@@ -27,12 +28,14 @@ namespace Brisebois.WindowsAzure.Blobs
         /// <param name="listingDetails">BlobListingDetails specify the type of informations that is returned by the GetWork method</param>
         /// <param name="deleteBlobOnCompleted">specifies is a bloob needs to be deleted once it has been treated</param>
         /// <param name="batchSize">Number of blobs to read from the top of the container</param>
+        ///  /// <param name="maxDelayInSeconds">Set the maximum Backoff delay between attemps to read data from the source</param>
         protected BlobContainerWorker(string connectionString,
                                       string containerName,
                                       BlobListingDetails listingDetails,
                                       bool deleteBlobOnCompleted = true,
-                                      int? batchSize = null)
-            : this(connectionString,containerName,deleteBlobOnCompleted,batchSize)
+                                      int? batchSize = null,
+                                      int maxDelayInSeconds =  1024)
+            : this(connectionString,containerName,deleteBlobOnCompleted,batchSize, maxDelayInSeconds)
         {
             blobListnigDetails = listingDetails;
         }
@@ -44,10 +47,13 @@ namespace Brisebois.WindowsAzure.Blobs
         /// <param name="containerName">Blob Container Name</param>
         /// <param name="deleteBlobOnCompleted">specifies is a bloob needs to be deleted once it has been treated</param>
         /// <param name="batchSize">Number of blobs to read from the top of the container</param>
+        /// <param name="maxDelayInSeconds">Set the maximum Backoff delay between attemps to read data from the source</param>
         protected BlobContainerWorker(string connectionString,
                                       string containerName,
                                       bool deleteBlobOnCompleted = true,
-                                      int? batchSize = null)
+                                      int? batchSize = null,
+                                      int maxDelayInSeconds = 1024)
+            : base(maxDelayInSeconds)
         {
             this.deleteBlobOnCompleted = deleteBlobOnCompleted;
             this.batchSize = batchSize;
