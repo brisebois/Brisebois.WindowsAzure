@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using Brisebois.WindowsAzure.TableStorage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace Brisebois.WindowsAzure.Blobs
@@ -26,7 +27,7 @@ namespace Brisebois.WindowsAzure.Blobs
 
         protected override void Report(string message)
         {
-            Console.WriteLine(message);
+            Logger.Add("BlobCompressor", "Event", message);
         }
 
         protected override void OnExecuting(CloudBlockBlob workItem)

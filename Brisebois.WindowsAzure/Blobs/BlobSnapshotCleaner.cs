@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Brisebois.WindowsAzure.TableStorage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace Brisebois.WindowsAzure.Blobs
@@ -31,7 +32,7 @@ namespace Brisebois.WindowsAzure.Blobs
 
         protected override void Report(string message)
         {
-            Console.WriteLine(message);
+            Logger.Add("BlobSnapshotCleaner", "Event", message);
         }
 
         protected override ICollection<IListBlobItem> GetWork()

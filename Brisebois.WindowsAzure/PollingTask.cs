@@ -10,7 +10,7 @@ namespace Brisebois.WindowsAzure
     /// <summary>
     /// Details: http://alexandrebrisebois.wordpress.com/2013/02/19/polling-tasks-are-great-building-blocks-for-windows-azure-roles/
     /// </summary>
-    public abstract class PollingTask<TWorkItem>
+    public abstract class PollingTask<TWorkItem> : WorkerProcess
     {
         private Task internalTask;
         private readonly CancellationTokenSource source;

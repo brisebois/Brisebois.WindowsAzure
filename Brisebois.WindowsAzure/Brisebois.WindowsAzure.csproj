@@ -33,6 +33,9 @@
     <Reference Include="Common.Logging">
       <HintPath>..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Data.Edm.5.0.2\lib\net40\Microsoft.Data.Edm.dll</HintPath>
@@ -77,7 +80,9 @@
       <HintPath>..\packages\Quartz.2.1.2\lib\net40\Quartz.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -97,6 +102,7 @@
     <Compile Include="Blobs\BlobCompressor.cs" />
     <Compile Include="Blobs\BlobSnapshotCleaner.cs" />
     <Compile Include="DelayCalculator.cs" />
+    <Compile Include="IntervalTask.cs" />
     <Compile Include="ModelQuery.cs" />
     <Compile Include="Jobs\JobSchedule.cs" />
     <Compile Include="ModelCommand.cs" />
@@ -106,6 +112,9 @@
     <Compile Include="REST\StringRestClient.cs" />
     <Compile Include="REST\TraceLevel.cs" />
     <Compile Include="REST\WebClientExtentions.cs" />
+    <Compile Include="SQL\DatabaseSizeRecommendation.cs" />
+    <Compile Include="SQL\EmptyDbContext.cs" />
+    <Compile Include="SQL\SqlDatabaseAutoScaler.cs" />
     <Compile Include="SQL\ReliableModel.cs" />
     <Compile Include="TableStorage\Entry.cs" />
     <Compile Include="TableStorage\Logger.cs" />
@@ -115,6 +124,7 @@
     <Compile Include="Queues\QueueWorker.cs" />
     <Compile Include="REST\RestClient.cs" />
     <Compile Include="REST\RetryPolicyFactory.cs" />
+    <Compile Include="WorkerProcess.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

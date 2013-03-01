@@ -1,5 +1,6 @@
 ﻿using System;
-using Brisebois.WindowsAzure.Blobs;
+using System.Diagnostics;
+using Brisebois.WindowsAzure.SQL;
 
 namespace Console.Brisebois.WindowsAzure
 {
@@ -7,11 +8,11 @@ namespace Console.Brisebois.WindowsAzure
     {
         static void Main(string[] args)
         {
-            //Delete all snapshots
-            var remover = new BlobSnapshotCleaner("StorageConnectionString",
-                                                    "documents",
-                                                    TimeSpan.MinValue);
-            remover.Start();
+            Trace.Listeners.Add(new ConsoleTraceListener());
+
+            var scaler = new SqlDatabaseAutoScaler("myDatabaseName",
+                                                    TimeSpan.FromMinutes(5));
+            scaler.Start();
 
             System.Console.ReadLine();
         }

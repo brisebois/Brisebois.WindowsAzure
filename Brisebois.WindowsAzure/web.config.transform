@@ -3,5 +3,6 @@
   <appSettings>
     <add key="StorageConnectionString" value="[Your Storage Connection String]" />
     <add key="DatabaseConnectionString" value="[Your SQL Database Connection String]" />
+    <add key="MasterDatabaseConnectionString" value="[Your SQL Database Connection String]" />
   </appSettings>
 </configuration>

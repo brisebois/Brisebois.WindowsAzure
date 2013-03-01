@@ -144,10 +144,9 @@ namespace Brisebois.WindowsAzure.TableStorage
         public static void Add(string service, string @event, string details = "")
         {
             if (Debugger.IsAttached)
-                Trace.Write(string.Format("{0}\t{1}\t{2}", service, @event, details));
+                Trace.WriteLine(string.Format("{3}{0}\t{1}{3}{2}{3}", service, @event, details, Environment.NewLine));
 
             Entries.Add(new Entry(service, @event, details));
-
             Persist(false);
         }
     }

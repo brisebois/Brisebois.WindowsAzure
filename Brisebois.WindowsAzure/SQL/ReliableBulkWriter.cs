@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
+using Brisebois.WindowsAzure.TableStorage;
 using Microsoft.Practices.EnterpriseLibrary.WindowsAzure.TransientFaultHandling.SqlAzure;
 using Microsoft.Practices.TransientFaultHandling;
 using Microsoft.WindowsAzure;
@@ -47,10 +48,7 @@ namespace Brisebois.WindowsAzure.SQL
             }
             catch (Exception ex)
             {
-
-                //TODO: Add logging logic
-
-                Trace.TraceError(ex.ToString());
+                Logger.Add("ReliableBulkWriter", "Exception", ex.ToString());
                 throw;
             }
         }
