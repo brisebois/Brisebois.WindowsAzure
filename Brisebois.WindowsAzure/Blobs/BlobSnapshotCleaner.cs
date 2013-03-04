@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using Brisebois.WindowsAzure.Properties;
 using Brisebois.WindowsAzure.TableStorage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
@@ -35,9 +37,9 @@ namespace Brisebois.WindowsAzure.Blobs
             Logger.Add("BlobSnapshotCleaner", "Event", message);
         }
 
-        protected override ICollection<IListBlobItem> GetWork()
+        protected override ICollection<IListBlobItem> TryGetWork()
         {
-            var list = base.GetWork();
+            var list = base.TryGetWork();
             return list.Cast<CloudBlockBlob>()
                         .Where(b => b.SnapshotTime.HasValue && IsExpired(b))
                         .Select(b => (IListBlobItem)b)
@@ -52,11 +54,13 @@ namespace Brisebois.WindowsAzure.Blobs
 
         protected override void OnExecuting(CloudBlockBlob workItem)
         {
+            if (workItem == null)
+                throw new ArgumentNullException("workItem");
+
             workItem.DeleteIfExists();
 
-            Report(string.Format("DELETED {0} Snapshot Time {1}",
-                                    workItem.Uri,
-                                    workItem.SnapshotTime));
+            string message = string.Format(CultureInfo.InvariantCulture, Resources.SnapshotCleaner_Deleted_Snapshot_Confirmation, workItem.Uri, workItem.SnapshotTime);
+            Report(message);
         }
     }
 }

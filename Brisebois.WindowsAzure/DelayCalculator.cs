@@ -7,8 +7,25 @@ namespace Brisebois.WindowsAzure
     /// </summary>
     public static class DelayCalculator
     {
+
+        /// <summary>
+        /// Calculates an exponential delay with a maximum of 1024 seconds
+        /// </summary>
+        /// <param name="failedAttempts">number of failed attemps</param>
+        /// <returns></returns>
+        public static Int64 ExponentialDelay(int failedAttempts)
+        {
+            return ExponentialDelay(failedAttempts, 1024);
+        }
+
+        /// <summary>
+        /// Calculates an exponential delay up to the maxDelayInSeconds specified
+        /// </summary>
+        /// <param name="failedAttempts">number of failed attemps</param>
+        /// <param name="maxDelayInSeconds">max delay in seconds</param>
+        /// <returns></returns>
         public static Int64 ExponentialDelay(int failedAttempts,
-                                             int maxDelayInSeconds = 1024)
+                                             int maxDelayInSeconds)
         {
             //Attempt 1     0s	    0s
             //Attempt 2	    2s	    2s

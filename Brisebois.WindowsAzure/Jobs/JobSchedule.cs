@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using Microsoft.WindowsAzure;
 using Quartz;
@@ -20,11 +21,21 @@ namespace Brisebois.WindowsAzure.Jobs
             sched = schedFact.GetScheduler();
             sched.Start();
         }
-        
+
+        /// <summary>
+        /// Will schedule jobs in Eastern Standard Time
+        /// </summary>
+        /// <param name="scheduleConfig">Setting Key from your CloudConfigurations, value format "hh:mm;hh:mm;"</param>
+        /// <param name="jobType">must inherit from IJob</param>
+        public void ScheduleDailyJob(string scheduleConfig, Type jobType)
+        {
+            ScheduleDailyJob(scheduleConfig, jobType, "Eastern Standard Time");
+        }
+
         /// <param name="scheduleConfig">Setting Key from your CloudConfigurations, value format "hh:mm;hh:mm;"</param>
         /// <param name="jobType">must inherit from IJob</param>
         /// <param name="timeZoneId">See http://alexandrebrisebois.wordpress.com/2013/01/20/using-quartz-net-to-schedule-jobs-in-windows-azure-worker-roles/ for Ids</param>
-        public void ScheduleDailyJob(string scheduleConfig, Type jobType, string timeZoneId = "Eastern Standard Time")
+        public void ScheduleDailyJob(string scheduleConfig, Type jobType, string timeZoneId)
         {
             var schedule = CloudConfigurationManager.GetSetting(scheduleConfig);
             if (schedule == "-")
@@ -41,8 +52,8 @@ namespace Brisebois.WindowsAzure.Jobs
 
                 var trigger = TriggerBuilder.Create()
                                             .StartNow()
-                                            .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(Convert.ToInt32(hour),
-                                                                                                   Convert.ToInt32(minutes))
+                                            .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(Convert.ToInt32(hour,CultureInfo.InvariantCulture),
+                                                                                                   Convert.ToInt32(minutes, CultureInfo.InvariantCulture))
                                                                              .InTimeZone(TimeZoneInfo.FindSystemTimeZoneById(timeZoneId)))
                                             .Build();
 
@@ -50,10 +61,22 @@ namespace Brisebois.WindowsAzure.Jobs
             });
         }
 
+
+        /// <summary>
+        /// Will schedule jobs in Eastern Standard Time
+        /// </summary>
+        /// <param name="scheduleConfig">Setting Key from your CloudConfigurations, value format "hh:mm;hh:mm;"</param>
+        /// <param name="jobType">must inherit from IJob</param>
+        public void ScheduleWeeklyJob(string scheduleConfig, Type jobType)
+        {
+            ScheduleWeeklyJob(scheduleConfig, jobType, "Eastern Standard Time");
+        }
+
+
         /// <param name="scheduleConfig">Setting Key from your CloudConfigurations, value format "hh:mm;hh:mm;"</param>
         /// <param name="jobType">must inherit from IJob</param>
         /// <param name="timeZoneId">See http://alexandrebrisebois.wordpress.com/2013/01/20/using-quartz-net-to-schedule-jobs-in-windows-azure-worker-roles/#more-658 for Ids</param>
-        public void ScheduleWeeklyJob(string scheduleConfig, Type jobType, string timeZoneId = "Eastern Standard Time")
+        public void ScheduleWeeklyJob(string scheduleConfig, Type jobType, string timeZoneId)
         {
             var schedule = CloudConfigurationManager.GetSetting(scheduleConfig);
 
@@ -68,7 +91,9 @@ namespace Brisebois.WindowsAzure.Jobs
 
                 var trigger = TriggerBuilder.Create()
                                             .StartNow()
-                                            .WithSchedule(CronScheduleBuilder.WeeklyOnDayAndHourAndMinute(DayOfWeek.Monday, Convert.ToInt32(hour), Convert.ToInt32(minutes))
+                                            .WithSchedule(CronScheduleBuilder.WeeklyOnDayAndHourAndMinute(DayOfWeek.Monday, 
+                                                                                                          Convert.ToInt32(hour, CultureInfo.InvariantCulture), 
+                                                                                                          Convert.ToInt32(minutes, CultureInfo.InvariantCulture))
                                             .InTimeZone(TimeZoneInfo.FindSystemTimeZoneById(timeZoneId)))
                                             .Build();
 

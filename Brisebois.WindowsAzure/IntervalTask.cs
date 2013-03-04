@@ -2,10 +2,11 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using Brisebois.WindowsAzure.Properties;
 
 namespace Brisebois.WindowsAzure
 {
-    public abstract class IntervalTask : WorkerProcess
+    public abstract class IntervalTask : IWorkerProcess, IDisposable
     {
         private Task internalTask;
         private readonly CancellationTokenSource source;
@@ -20,7 +21,7 @@ namespace Brisebois.WindowsAzure
         public void Start()
         {
             if (internalTask != null)
-                throw new Exception("Task is already running");
+                throw new IntervalTaskException("Task is already running");
 
             internalTask = Task.Run(() =>
                 {
@@ -28,7 +29,7 @@ namespace Brisebois.WindowsAzure
                     {
                         TryExecute();
 
-                        Report("Heart Beat");
+                        Report(Resources.Heart_Beat);
                     }
                 }, source.Token);
         }
@@ -41,7 +42,7 @@ namespace Brisebois.WindowsAzure
                     .ContinueWith(_ => Execute())
                     .Wait();
             }
-            catch (Exception ex)
+            catch (AggregateException ex)
             {
                 Report(ex.ToString());
                 if (Debugger.IsAttached)
@@ -55,6 +56,22 @@ namespace Brisebois.WindowsAzure
         public void Cancel()
         {
             source.Cancel();
+            internalTask = null;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+               internalTask.Dispose();
+               source.Dispose();
+            }
             internalTask = null;
         }
     }

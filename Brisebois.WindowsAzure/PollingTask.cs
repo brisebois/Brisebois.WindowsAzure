@@ -1,26 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Brisebois.WindowsAzure.Properties;
 
 namespace Brisebois.WindowsAzure
 {
     /// <summary>
     /// Details: http://alexandrebrisebois.wordpress.com/2013/02/19/polling-tasks-are-great-building-blocks-for-windows-azure-roles/
     /// </summary>
-    public abstract class PollingTask<TWorkItem> : WorkerProcess
+    public abstract class PollingTask<TWorkItem> : IWorkerProcess, IDisposable
     {
         private Task internalTask;
         private readonly CancellationTokenSource source;
         private int attempts;
         private readonly int maxDelayInSeconds = 1024;
 
-        protected PollingTask(int maxBackoffDelayInSeconds)
+        protected PollingTask(int maxBackOffDelayInSeconds)
             : this()
         {
-            maxDelayInSeconds = maxBackoffDelayInSeconds;
+            maxDelayInSeconds = maxBackOffDelayInSeconds;
         }
 
         protected PollingTask()
@@ -33,7 +35,7 @@ namespace Brisebois.WindowsAzure
         public void Start()
         {
             if (internalTask != null)
-                throw new Exception("Task is already running");
+                throw new PollingTaskException("Task is already running");
 
             internalTask = Task.Run(() =>
             {
@@ -41,7 +43,7 @@ namespace Brisebois.WindowsAzure
                 {
                     TryExecuteWorkItems();
 
-                    Report("Heart Beat");
+                    Report(Resources.Heart_Beat);
                 }
             }, source.Token);
         }
@@ -50,18 +52,18 @@ namespace Brisebois.WindowsAzure
         {
             try
             {
-                var files = GetWork();
+                var files = TryGetWork();
 
                 if (files.Any())
                 {
                     ResetAttempts();
                     files.AsParallel()
-                            .ForAll(ExecuteWork);
+                         .ForAll(ExecuteWork);
                 }
                 else
                     BackOff();
             }
-            catch (Exception ex)
+            catch (AggregateException ex)
             {
                 Report(ex.ToString());
                 if (Debugger.IsAttached)
@@ -71,13 +73,14 @@ namespace Brisebois.WindowsAzure
 
         private void ExecuteWork(TWorkItem workItem)
         {
-            Report(string.Format("Started work on workItem"));
+            Report(Resources.Started_work_on_work_item);
             var w = new Stopwatch();
             w.Start();
             Execute(workItem);
             w.Stop();
-            Report(string.Format("Completed work on workItem in {0}",
-                                    w.Elapsed.TotalMinutes));
+            Report(string.Format(CultureInfo.InvariantCulture,
+                                 Resources.Completed_work_on_work_item,
+                                 w.Elapsed.TotalMinutes));
             Completed(workItem);
         }
 
@@ -87,14 +90,14 @@ namespace Brisebois.WindowsAzure
 
             var seconds = GetTimeoutAsTimeSpan();
 
-            Report(string.Format("Sleep for {0}", seconds));
+            Report(string.Format(CultureInfo.InvariantCulture,Resources.Sleep_for, seconds));
 
             Thread.Sleep(seconds);
         }
 
         private TimeSpan GetTimeoutAsTimeSpan()
         {
-            var timeout = DelayCalculator.ExponentialDelay(attempts,maxDelayInSeconds);
+            var timeout = DelayCalculator.ExponentialDelay(attempts, maxDelayInSeconds);
 
             var seconds = TimeSpan.FromSeconds(timeout);
             return seconds;
@@ -102,7 +105,7 @@ namespace Brisebois.WindowsAzure
 
         protected abstract void Execute(TWorkItem workItem);
         protected abstract void Completed(TWorkItem workItem);
-        protected abstract ICollection<TWorkItem> GetWork();
+        protected abstract ICollection<TWorkItem> TryGetWork();
 
         public void Cancel()
         {
@@ -113,6 +116,22 @@ namespace Brisebois.WindowsAzure
         public void ResetAttempts()
         {
             attempts = 0;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                internalTask.Dispose();
+                source.Dispose();
+            }
+            internalTask = null;
         }
     }
 }

@@ -32,6 +32,9 @@ namespace Brisebois.WindowsAzure.Blobs
 
         protected override void OnExecuting(CloudBlockBlob workItem)
         {
+            if(workItem ==null)
+                throw new ArgumentNullException("workItem");
+            
             if (workItem.Metadata.ContainsKey(CompressedFlag))
                 return;
 
@@ -50,9 +53,9 @@ namespace Brisebois.WindowsAzure.Blobs
             }
         }
 
-        protected override ICollection<IListBlobItem> GetWork()
+        protected override ICollection<IListBlobItem> TryGetWork()
         {
-            return base.GetWork()
+            return base.TryGetWork()
                        .Cast<CloudBlockBlob>()
                        .Where(b => !b.Metadata.ContainsKey(CompressedFlag))
                        .Cast<IListBlobItem>()
@@ -66,9 +69,14 @@ namespace Brisebois.WindowsAzure.Blobs
             workItem.SetMetadata();
         }
 
-        protected void CompressStream(MemoryStream compressedStream,
-                                      MemoryStream blobStream)
+        protected static void CompressStream(Stream compressedStream,
+                                      Stream blobStream)
         {
+            if(compressedStream==null)
+                throw new ArgumentNullException("blobStream");
+            if(blobStream== null)
+                throw new ArgumentNullException("blobStream");
+
             blobStream.Position = 0;
             using (var compressionStream = MakeCompressionStream(compressedStream))
             {

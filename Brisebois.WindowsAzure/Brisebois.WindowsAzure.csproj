@@ -28,6 +28,14 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Brisebois.WindowsAzure.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Common.Logging">
@@ -81,6 +89,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Services.Client" />
@@ -91,6 +100,7 @@
       <HintPath>..\packages\System.Spatial.5.0.2\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -102,35 +112,55 @@
     <Compile Include="Blobs\BlobCompressor.cs" />
     <Compile Include="Blobs\BlobSnapshotCleaner.cs" />
     <Compile Include="DelayCalculator.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IntervalTask.cs" />
-    <Compile Include="ModelQuery.cs" />
+    <Compile Include="IntervalTaskException.cs" />
+    <Compile Include="IModelQuery.cs" />
     <Compile Include="Jobs\JobSchedule.cs" />
-    <Compile Include="ModelCommand.cs" />
+    <Compile Include="IModelCommand.cs" />
     <Compile Include="PollingTask.cs" />
-    <Compile Include="REST\RestClientException.cs" />
-    <Compile Include="REST\StreamRestClient.cs" />
-    <Compile Include="REST\StringRestClient.cs" />
-    <Compile Include="REST\TraceLevel.cs" />
-    <Compile Include="REST\WebClientExtentions.cs" />
-    <Compile Include="SQL\DatabaseSizeRecommendation.cs" />
-    <Compile Include="SQL\EmptyDbContext.cs" />
-    <Compile Include="SQL\SqlDatabaseAutoScaler.cs" />
-    <Compile Include="SQL\ReliableModel.cs" />
+    <Compile Include="PollingTaskException.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Rest\RestClientException.cs" />
+    <Compile Include="Rest\StreamRestClient.cs" />
+    <Compile Include="Rest\StringRestClient.cs" />
+    <Compile Include="Rest\WebClientExtensions.cs" />
+    <Compile Include="Sql\DatabaseSizeRecommendation.cs" />
+    <Compile Include="Sql\EmptyDbContext.cs" />
+    <Compile Include="Sql\SqlDatabaseAutoScaler.cs" />
+    <Compile Include="Sql\ReliableModel.cs" />
+    <Compile Include="TableStorage\CloudTableQuery.cs" />
     <Compile Include="TableStorage\Entry.cs" />
+    <Compile Include="TableStorage\GetTopLogEntriesForPartition.cs" />
     <Compile Include="TableStorage\Logger.cs" />
-    <Compile Include="SQL\ReliableBulkWriter.cs" />
-    <Compile Include="REST\HttpTransientErrorDetectionStrategy.cs" />
+    <Compile Include="Sql\ReliableBulkWriter.cs" />
+    <Compile Include="Rest\HttpTransientErrorDetectionStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queues\QueueWorker.cs" />
-    <Compile Include="REST\RestClient.cs" />
-    <Compile Include="REST\RetryPolicyFactory.cs" />
-    <Compile Include="WorkerProcess.cs" />
+    <Compile Include="Rest\RestClient.cs" />
+    <Compile Include="Rest\RetryPolicyFactory.cs" />
+    <Compile Include="TableStorage\TableStorageBulkWorker.cs" />
+    <Compile Include="IWorkerProcess.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="app.config.transform" />
+    <None Include="Brisebois.WindowsAzure.snk" />
     <None Include="web.config.transform" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="Properties\CustomDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

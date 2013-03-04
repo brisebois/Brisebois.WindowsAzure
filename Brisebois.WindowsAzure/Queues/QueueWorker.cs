@@ -18,12 +18,19 @@ namespace Brisebois.WindowsAzure.Queues
         private readonly CloudQueue queue;
         private readonly TimeSpan visibilityTimeout;
         private readonly int maxAttempts;
-
+        
+        protected QueueWorker(string connectionString,
+                              string queueName,
+                              string poisonQueueName)
+            : this(connectionString,queueName,poisonQueueName, 10,10)
+        {
+        }
+        
         protected QueueWorker(string connectionString,
                               string queueName,
                               string poisonQueueName,
-                              int maxAttempts = 10,
-                              int visibilityTimeoutInMinutes = 10)
+                              int maxAttempts,
+                              int visibilityTimeoutInMinutes)
         {
             this.maxAttempts = maxAttempts;
 
@@ -45,6 +52,9 @@ namespace Brisebois.WindowsAzure.Queues
 
         protected override void Execute(CloudQueueMessage workItem)
         {
+            if(workItem == null)
+                throw new ArgumentNullException("workItem");
+
             if (workItem.DequeueCount > maxAttempts)
             {
                 PlaceMessageOnPoisonQueue(workItem);
@@ -69,13 +79,13 @@ namespace Brisebois.WindowsAzure.Queues
             {
                 queue.DeleteMessage(workItem);
             }
-            catch (Exception ex)
+            catch (StorageException ex)
             {
                 Report(ex.ToString());
             }
         }
 
-        protected override ICollection<CloudQueueMessage> GetWork()
+        protected override ICollection<CloudQueueMessage> TryGetWork()
         {
             return queue.GetMessages(32, visibilityTimeout)
                         .ToList();
