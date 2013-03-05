@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Brisebois.WindowsAzure.Rest;
+using Brisebois.WindowsAzure.TableStorage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
@@ -10,7 +13,13 @@ namespace Test.Brisebois.WindowsAzure
     [TestClass]
     public class UnitTest1
     {
-
+        [TestMethod]
+        public void Insert1000Events()
+        {
+            Enumerable.Range(0, 1001).ToList().ForEach(i => Logger.Add("test", i + " event", "these are the details"));
+            var tasks = new[] { Logger.Persist(true), Logger.Persist(true), Logger.Persist(true) };
+            Task.WaitAll(tasks);
+        }
         
         [TestMethod]
         public void TestMethod()

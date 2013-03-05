@@ -13,8 +13,8 @@ namespace Brisebois.WindowsAzure.Sql
         private readonly int absoluteMaxSize;
 
         public SqlDatabaseAutoScaler(string databaseName,
-                                     TimeSpan interval)
-            : this(databaseName,interval,150)
+                                        TimeSpan interval)
+            : this(databaseName, interval, 150)
         {
 
         }

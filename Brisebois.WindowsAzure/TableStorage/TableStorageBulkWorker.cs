@@ -19,7 +19,8 @@ namespace Brisebois.WindowsAzure.TableStorage
 
         public TableStorageBulkWorker(string tableName)
         {
-            storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+            string cs = CloudConfigurationManager.GetSetting("StorageConnectionString");
+            storageAccount = CloudStorageAccount.Parse(cs);
             tableClient = storageAccount.CreateCloudTableClient();
             tableReference = tableClient.GetTableReference(tableName);
             tableReference.CreateIfNotExists();
@@ -32,32 +33,32 @@ namespace Brisebois.WindowsAzure.TableStorage
             get { return operations.Count; }
         }
 
-        public void Insert(ITableEntity entity)
+        public void Insert<TEntity>(TEntity entity) where TEntity : ITableEntity
         {
             operations.TryAdd(entity, TableOperation.Insert(entity));
         }
 
-        public void Delete(ITableEntity entity)
+        public void Delete<TEntity>(TEntity entity) where TEntity : ITableEntity
         {
             operations.TryAdd(entity, TableOperation.Delete(entity));
         }
 
-        public void InsertOrMerge(ITableEntity entity)
+        public void InsertOrMerge<TEntity>(TEntity entity) where TEntity : ITableEntity
         {
             operations.TryAdd(entity, TableOperation.InsertOrMerge(entity));
         }
 
-        public void InsertOrReplace(ITableEntity entity)
+        public void InsertOrReplace<TEntity>(TEntity entity) where TEntity : ITableEntity
         {
             operations.TryAdd(entity, TableOperation.InsertOrReplace(entity));
         }
 
-        public void Merge(ITableEntity entity)
+        public void Merge<TEntity>(TEntity entity) where TEntity : ITableEntity
         {
             operations.TryAdd(entity, TableOperation.Merge(entity));
         }
 
-        public void Replace(ITableEntity entity)
+        public void Replace<TEntity>(TEntity entity) where TEntity : ITableEntity
         {
             operations.TryAdd(entity, TableOperation.Replace(entity));
         }
@@ -68,25 +69,25 @@ namespace Brisebois.WindowsAzure.TableStorage
                 .GroupBy(kv => kv.Key.PartitionKey)
                 .ToList()
                 .ForEach(g =>
-                    {
-                        var opreations = g.ToList();
+              {
+                  var opreations = g.ToList();
 
-                        var operationsToExecute = opreations
-                            .Take(100)
-                            .ToList();
-                        var batch = 0;
-                        while (operationsToExecute.Any())
-                        {
-                            var tableBatchOperation = MakeTableBatchOperation(operationsToExecute);
+                  var operationsToExecute = opreations
+                      .Take(100)
+                      .ToList();
+                  var batch = 0;
+                  while (operationsToExecute.Any())
+                  {
+                      var tableBatchOperation = MakeBatchOperation(operationsToExecute);
 
-                            ExecuteBatchWithRetries(tableBatchOperation);
+                      ExecuteBatchWithRetries(tableBatchOperation);
 
-                            RemoveOperations(operationsToExecute);
+                      RemoveOperations(operationsToExecute);
 
-                            batch++;
-                            operationsToExecute = GetOperationsToExecute(opreations, batch);
-                        }
-                    });
+                      batch++;
+                      operationsToExecute = GetOperations(opreations, batch);
+                  }
+              });
         }
 
         private void ExecuteBatchWithRetries(TableBatchOperation tableBatchOperation)
@@ -103,15 +104,17 @@ namespace Brisebois.WindowsAzure.TableStorage
                 };
         }
 
-        private static TableBatchOperation MakeTableBatchOperation(List<KeyValuePair<ITableEntity, TableOperation>> operationsToExecute)
+        private static TableBatchOperation MakeBatchOperation(
+            List<KeyValuePair<ITableEntity, TableOperation>> operationsToExecute)
         {
             var tableBatchOperation = new TableBatchOperation();
             operationsToExecute.ForEach(kv => tableBatchOperation.Add(kv.Value));
             return tableBatchOperation;
         }
 
-        private static List<KeyValuePair<ITableEntity, TableOperation>> GetOperationsToExecute(IEnumerable<KeyValuePair<ITableEntity, TableOperation>> opreations,
-                                                                                               int batch)
+        private static List<KeyValuePair<ITableEntity, TableOperation>> GetOperations(
+            IEnumerable<KeyValuePair<ITableEntity, TableOperation>> opreations,
+            int batch)
         {
             return opreations
                 .Skip(batch * 100)
@@ -119,7 +122,8 @@ namespace Brisebois.WindowsAzure.TableStorage
                 .ToList();
         }
 
-        private void RemoveOperations(List<KeyValuePair<ITableEntity, TableOperation>> operationsToExecute)
+        private void RemoveOperations(
+            List<KeyValuePair<ITableEntity, TableOperation>> operationsToExecute)
         {
             operationsToExecute.ForEach(kv =>
                 {

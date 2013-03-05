@@ -39,22 +39,33 @@ namespace Brisebois.WindowsAzure.TableStorage
                 });
         }
 
-        public static async void Persist(bool force)
-        {
-            var delay = DateTime.UtcNow.Subtract(lastPersist);
-            if (!force && Worker.OutstandingOperations <= 100 && !(delay.TotalSeconds > 20)) 
-                return;
-            
-            var persisted = await Task.Run(() =>
-                {
-                    Worker.Execute();
-                    return DateTime.UtcNow;
-                });
+        private static bool isPersisting;
 
-            lock (LockObject)
-            {
-                lastPersist = persisted;
-            }
+        public static Task Persist(bool force)
+        {
+            return Task.Run( async () =>
+                {
+                    var delay = DateTime.UtcNow.Subtract(lastPersist);
+                    if (isPersisting && !force && Worker.OutstandingOperations <= 100 && !(delay.TotalSeconds > 20))
+                        return;
+
+                    lock (LockObject)
+                    {
+                        isPersisting = true;
+                    }
+
+                    var persisted = await Task.Run(() =>
+                    {
+                        Worker.Execute();
+                        return DateTime.UtcNow;
+                    });
+
+                    lock (LockObject)
+                    {
+                        lastPersist = persisted; 
+                        isPersisting = false;
+                    }
+                });
         }
 
         public static void Add(string service, string @event)
