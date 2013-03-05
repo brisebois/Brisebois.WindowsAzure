@@ -27,14 +27,6 @@ namespace Brisebois.WindowsAzure.TableStorage
             operations = new ConcurrentDictionary<ITableEntity, TableOperation>();
         }
 
-        public ICollection<TEntity> Execute<TEntity>(CloudTableQuery<TEntity> query)
-        {
-            if(query == null)
-                throw new ArgumentNullException("query");
-
-            return query.Execute(tableReference);
-        }
-
         public decimal OutstandingOperations
         {
             get { return operations.Count; }

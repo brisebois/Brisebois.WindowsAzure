@@ -33,8 +33,9 @@ namespace Brisebois.WindowsAzure.TableStorage
         {
             return Task.Run(() =>
                 {
+                    var reader = new TableStorageReader(TableName);
                     var query = new GetTopLogEntriesForPartition<Entry>(partition, count);
-                    return Worker.Execute(query);
+                    return reader.Execute(query);
                 });
         }
 
@@ -66,7 +67,7 @@ namespace Brisebois.WindowsAzure.TableStorage
             if (Debugger.IsAttached)
                 Trace.WriteLine(string.Format(CultureInfo.InvariantCulture, "{3}{0}\t{1}{3}{2}{3}", service, @event, details, Environment.NewLine));
 
-            Worker.Insert(Entry.Make(service, @event, details));
+            Worker.InsertOrMerge(Entry.Make(service, @event, details));
             Persist(false);
         }
     }

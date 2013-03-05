@@ -145,6 +145,7 @@
     <Compile Include="Rest\RetryPolicyFactory.cs" />
     <Compile Include="TableStorage\TableStorageBulkWorker.cs" />
     <Compile Include="IWorkerProcess.cs" />
+    <Compile Include="TableStorage\TableStorageReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
