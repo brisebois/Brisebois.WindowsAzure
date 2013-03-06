@@ -112,6 +112,7 @@
     <Compile Include="Blobs\BlobCompressor.cs" />
     <Compile Include="Blobs\BlobSnapshotCleaner.cs" />
     <Compile Include="DelayCalculator.cs" />
+    <Compile Include="TableStorage\DynamicEntity.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IntervalTask.cs" />
     <Compile Include="IntervalTaskException.cs" />

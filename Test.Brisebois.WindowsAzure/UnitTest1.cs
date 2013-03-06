@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using Brisebois.WindowsAzure.Rest;
 using Brisebois.WindowsAzure.TableStorage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,10 +16,30 @@ namespace Test.Brisebois.WindowsAzure
         public void Insert1000Events()
         {
             Enumerable.Range(0, 1001).ToList().ForEach(i => Logger.Add("test", i + " event", "these are the details"));
-            var tasks = new[] { Logger.Persist(true), Logger.Persist(true), Logger.Persist(true) };
-            Task.WaitAll(tasks);
+            Logger.Persist(true);
         }
-        
+
+        [TestMethod]
+        public void InsertParallel1000Events()
+        {
+            Enumerable.Range(0, 1000).AsParallel().ForAll(i =>
+            {
+                Logger.Add("test1", i + " event", "these are the details");
+            });
+
+            Enumerable.Range(0, 1000).AsParallel().ForAll(i =>
+            {
+                Logger.Add("test", i + " event", "these are the details");
+            });
+
+            Enumerable.Range(0, 1000).AsParallel().ForAll(i =>
+            {
+                Logger.Add("test2", i + " event", "these are the details");
+            });
+
+            Logger.Persist(true);
+        }
+
         [TestMethod]
         public void TestMethod()
         {
