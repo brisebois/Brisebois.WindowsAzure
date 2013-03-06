@@ -9,7 +9,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Brisebois.WindowsAzure.TableStorage
 {
-    public class TableStorageBulkWorker
+    public class TableStorageWriter
     {
         private readonly CloudStorageAccount storageAccount;
         
@@ -18,7 +18,7 @@ namespace Brisebois.WindowsAzure.TableStorage
 
         private const int BatchSize = 100;
 
-        public TableStorageBulkWorker(string tableName)
+        public TableStorageWriter(string tableName)
         {
             this.tableName = tableName;
 

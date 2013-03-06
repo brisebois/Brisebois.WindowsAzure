@@ -13,7 +13,7 @@ namespace Brisebois.WindowsAzure.TableStorage
     public static class Logger
     {
         private const string TableName = "RoleLogTable";
-        private static readonly TableStorageBulkWorker Worker = new TableStorageBulkWorker(TableName);
+        private static readonly TableStorageWriter Worker = new TableStorageWriter(TableName);
 
         private static DateTime lastPersist;
         private static readonly object LockObject = new object();

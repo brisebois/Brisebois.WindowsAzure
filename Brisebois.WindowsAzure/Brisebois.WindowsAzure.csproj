@@ -144,7 +144,7 @@
     <Compile Include="Queues\QueueWorker.cs" />
     <Compile Include="Rest\RestClient.cs" />
     <Compile Include="Rest\RetryPolicyFactory.cs" />
-    <Compile Include="TableStorage\TableStorageBulkWorker.cs" />
+    <Compile Include="TableStorage\TableStorageWriter.cs" />
     <Compile Include="IWorkerProcess.cs" />
     <Compile Include="TableStorage\TableStorageReader.cs" />
   </ItemGroup>
