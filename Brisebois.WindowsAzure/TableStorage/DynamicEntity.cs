@@ -11,7 +11,7 @@ namespace Brisebois.WindowsAzure.TableStorage
         private IDictionary<string, EntityProperty> internalProperties = new Dictionary<string, EntityProperty>();
 
         /// <summary>
-        ///     Stored in decending order
+        /// Stored in decending order based on newest to oldest
         /// </summary>
         public DynamicEntity(string partitionKey, DateTime dateTime)
         {

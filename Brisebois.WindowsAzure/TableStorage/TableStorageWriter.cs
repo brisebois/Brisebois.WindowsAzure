@@ -11,26 +11,31 @@ namespace Brisebois.WindowsAzure.TableStorage
 {
     public class TableStorageWriter
     {
-        private readonly CloudStorageAccount storageAccount;
-        
-        private readonly ConcurrentQueue<Tuple<ITableEntity,TableOperation>> operations;
-        private readonly string tableName;
-
         private const int BatchSize = 100;
+        private readonly ConcurrentQueue<Tuple<ITableEntity, TableOperation>> operations;
+        private readonly CloudStorageAccount storageAccount;
+        private readonly string tableName;
 
         public TableStorageWriter(string tableName)
         {
             this.tableName = tableName;
 
             var cs = CloudConfigurationManager.GetSetting("StorageConnectionString");
-            
+
             storageAccount = CloudStorageAccount.Parse(cs);
-            
-            var tableClient = storageAccount.CreateCloudTableClient();
-            var tableReference = tableClient.GetTableReference(tableName);
+
+            var tableReference = MakeTableReference();
+
             tableReference.CreateIfNotExists();
 
             operations = new ConcurrentQueue<Tuple<ITableEntity, TableOperation>>();
+        }
+
+        private CloudTable MakeTableReference()
+        {
+            var tableClient = storageAccount.CreateCloudTableClient();
+            var tableReference = tableClient.GetTableReference(tableName);
+            return tableReference;
         }
 
         public decimal OutstandingOperations
@@ -38,78 +43,100 @@ namespace Brisebois.WindowsAzure.TableStorage
             get { return operations.Count; }
         }
 
-        public void Insert<TEntity>(TEntity entity) where TEntity : ITableEntity
+        public void Insert<TEntity>(TEntity entity)
+            where TEntity : ITableEntity
         {
-            operations.Enqueue(new Tuple<ITableEntity, TableOperation>(entity,TableOperation.Insert(entity)));
+            var e = new Tuple<ITableEntity, TableOperation>
+                (entity,
+                    TableOperation.Insert(entity));
+            operations.Enqueue(e);
         }
 
-        public void Delete<TEntity>(TEntity entity) where TEntity : ITableEntity
+        public void Delete<TEntity>(TEntity entity)
+            where TEntity : ITableEntity
         {
-            operations.Enqueue(new Tuple<ITableEntity, TableOperation>(entity,TableOperation.Delete(entity)));
+            var e = new Tuple<ITableEntity, TableOperation>
+                (entity,
+                    TableOperation.Delete(entity));
+            operations.Enqueue(e);
         }
 
-        public void InsertOrMerge<TEntity>(TEntity entity) where TEntity : ITableEntity
+        public void InsertOrMerge<TEntity>(TEntity entity)
+            where TEntity : ITableEntity
         {
-            operations.Enqueue(new Tuple<ITableEntity, TableOperation>(entity,TableOperation.InsertOrMerge(entity)));
+            var e = new Tuple<ITableEntity, TableOperation>
+                (entity,
+                    TableOperation.InsertOrMerge(entity));
+            operations.Enqueue(e);
         }
 
-        public void InsertOrReplace<TEntity>(TEntity entity) where TEntity : ITableEntity
+        public void InsertOrReplace<TEntity>(TEntity entity)
+            where TEntity : ITableEntity
         {
-            operations.Enqueue(new Tuple<ITableEntity, TableOperation>(entity,TableOperation.InsertOrReplace(entity)));
+            var e = new Tuple<ITableEntity, TableOperation>
+                (entity,
+                    TableOperation.InsertOrReplace(entity));
+            operations.Enqueue(e);
         }
 
-        public void Merge<TEntity>(TEntity entity) where TEntity : ITableEntity
+        public void Merge<TEntity>(TEntity entity)
+            where TEntity : ITableEntity
         {
-            operations.Enqueue(new Tuple<ITableEntity, TableOperation>(entity,TableOperation.Merge(entity)));
+            var e = new Tuple<ITableEntity, TableOperation>
+                (entity,
+                    TableOperation.Merge(entity));
+            operations.Enqueue(e);
         }
 
-        public void Replace<TEntity>(TEntity entity) where TEntity : ITableEntity
+        public void Replace<TEntity>(TEntity entity)
+            where TEntity : ITableEntity
         {
-            operations.Enqueue(new Tuple<ITableEntity, TableOperation>(entity,TableOperation.Replace(entity)));
+            var e = new Tuple<ITableEntity, TableOperation>
+                (entity,
+                    TableOperation.Replace(entity));
+            operations.Enqueue(e);
         }
 
         public void Execute()
         {
             var count = operations.Count;
-            var operationsToExecute = new List<Tuple<ITableEntity, TableOperation>>();
+            var toExecute = new List<Tuple<ITableEntity, TableOperation>>();
             for (var index = 0; index < count; index++)
             {
                 Tuple<ITableEntity, TableOperation> operation;
                 operations.TryDequeue(out operation);
-                if(operation!= null)
-                    operationsToExecute.Add(operation);
+                if (operation != null)
+                    toExecute.Add(operation);
             }
 
-           operationsToExecute
-                .GroupBy(tuple => tuple.Item1.PartitionKey)
-                .ToList()
-                .ForEach(g => {
+            toExecute
+               .GroupBy(tuple => tuple.Item1.PartitionKey)
+               .ToList()
+               .ForEach(g =>
+               {
+                   var opreations = g.ToList();
 
-                        var opreations = g.ToList();
+                   var batch = 0;
+                   var operationBatch = GetOperations(opreations, batch);
 
-                        var operationBatch = opreations
-                            .Take(BatchSize)
-                            .ToList();
+                   while (operationBatch.Any())
+                   {
+                       var tableBatchOperation = MakeBatchOperation(operationBatch);
 
-                        var batch = 0;
-                        while (operationsToExecute.Any())
-                        {
-                            var tableBatchOperation = MakeBatchOperation(operationBatch);
+                       ExecuteBatchWithRetries(tableBatchOperation);
 
-                            ExecuteBatchWithRetries(tableBatchOperation);
-
-                            batch++;
-                            operationsToExecute = GetOperations(opreations, batch);
-                        }
-                    });
+                       batch++;
+                       operationBatch = GetOperations(opreations, batch);
+                   }
+               });
         }
 
         private void ExecuteBatchWithRetries(TableBatchOperation tableBatchOperation)
         {
             var tableRequestOptions = MakeTableRequestOptions();
-            
-            var tableClient = storageAccount.CreateCloudTableClient();
-            var tableReference = tableClient.GetTableReference(tableName);    
+
+            var tableReference = MakeTableReference();
+
             tableReference.ExecuteBatch(tableBatchOperation, tableRequestOptions);
         }
 
@@ -117,7 +144,8 @@ namespace Brisebois.WindowsAzure.TableStorage
         {
             return new TableRequestOptions
                 {
-                    RetryPolicy = new ExponentialRetry(TimeSpan.FromMilliseconds(2), 100)
+                    RetryPolicy = new ExponentialRetry(TimeSpan.FromMilliseconds(2),
+                                                       100)
                 };
         }
 
