@@ -1,6 +1,6 @@
 namespace Brisebois.WindowsAzure.Sql
 {
-    internal class DatabaseSizeRecommendation
+    public class DatabaseSizeRecommendation
     {
         public double CurrentSize { get; set; }
         public int CurrentMaxSize { get; set; }

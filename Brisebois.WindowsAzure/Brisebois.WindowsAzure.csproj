@@ -113,6 +113,16 @@
     <Compile Include="Blobs\BlobCompressor.cs" />
     <Compile Include="Blobs\BlobSnapshotCleaner.cs" />
     <Compile Include="DelayCalculator.cs" />
+    <Compile Include="Sql\DatabaseQuery.cs" />
+    <Compile Include="Sql\DatabaseScalarQuery.cs" />
+    <Compile Include="Sql\Queries\GetDatabaseSizeRecommendation.cs" />
+    <Compile Include="Sql\IDatabaseCachedReadModel.cs" />
+    <Compile Include="Sql\IDatabaseQuery.cs" />
+    <Compile Include="Sql\Database.cs" />
+    <Compile Include="Sql\DatabaseCache.cs" />
+    <Compile Include="Sql\IDatabaseReadModel.cs" />
+    <Compile Include="Sql\IDatabaseWriteModel.cs" />
+    <Compile Include="Sql\RetryParams.cs" />
     <Compile Include="TableStorage\CloudTableQueryCache.cs" />
     <Compile Include="TableStorage\CloudTableQueryExtensions.cs" />
     <Compile Include="TableStorage\DynamicEntity.cs" />
@@ -139,7 +149,7 @@
     <Compile Include="Sql\ReliableModel.cs" />
     <Compile Include="TableStorage\CloudTableQuery.cs" />
     <Compile Include="TableStorage\Entry.cs" />
-    <Compile Include="TableStorage\GetTopEntriesForPartition.cs" />
+    <Compile Include="TableStorage\Queries\GetTopEntriesForPartition.cs" />
     <Compile Include="TableStorage\Logger.cs" />
     <Compile Include="Sql\ReliableBulkWriter.cs" />
     <Compile Include="Rest\HttpTransientErrorDetectionStrategy.cs" />

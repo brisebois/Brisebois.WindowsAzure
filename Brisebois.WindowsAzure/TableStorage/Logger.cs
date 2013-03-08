@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Threading.Tasks;
+using Brisebois.WindowsAzure.TableStorage.Queries;
 
 namespace Brisebois.WindowsAzure.TableStorage
 {
@@ -35,7 +37,8 @@ namespace Brisebois.WindowsAzure.TableStorage
                 {
                     var reader = new TableStorageReader(TableName);
                     var query = new GetTopEntriesForPartition<Entry>(partition, count);
-                    return reader.Execute(query);
+                    var cacheItemPolicy = new CacheItemPolicy {AbsoluteExpiration = DateTime.UtcNow.Add(TimeSpan.FromSeconds(30))};
+                    return reader.Execute(query.WithCache(cacheItemPolicy));
                 });
         }
 

@@ -116,4 +116,7 @@
   <data name="SqlDatabaseAutoScaler_Applying_Recommendations" xml:space="preserve">
     <value>Applying Recommendations</value>
   </data>
+  <data name="Database_Action_Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
 </root>

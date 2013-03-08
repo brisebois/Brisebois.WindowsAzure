@@ -70,6 +70,15 @@ namespace Brisebois.WindowsAzure.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Completed.
+        /// </summary>
+        internal static string Database_Action_Completed {
+            get {
+                return ResourceManager.GetString("Database_Action_Completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Heart Beat.
         /// </summary>
         internal static string Heart_Beat {

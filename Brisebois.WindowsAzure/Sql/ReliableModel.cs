@@ -9,6 +9,7 @@ namespace Brisebois.WindowsAzure.Sql
     /// <summary>
     /// Details: http://alexandrebrisebois.wordpress.com/2012/10/15/using-the-exponential-back-off-transient-error-detection-strategy/
     /// </summary>
+    [Obsolete("This class will be removed in the next version")]
     public static class ReliableModel
     {
         public static void Do<TModel>(Action<TModel> action)
@@ -149,7 +150,7 @@ namespace Brisebois.WindowsAzure.Sql
                               8000,
                               20);
         }
-    
+
         public static async Task<TResult> QueryAsync<TModel, TResult>(
             Func<TModel, TResult> query,
             Func<TModel> createModel,
@@ -181,8 +182,8 @@ namespace Brisebois.WindowsAzure.Sql
 
             where TModel : IDisposable, new()
         {
-            return Query(queryFunc, 
-                         createModel, 
+            return Query(queryFunc,
+                         createModel,
                          10,
                          20,
                          8000,

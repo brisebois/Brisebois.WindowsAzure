@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Text;
 using Brisebois.WindowsAzure.Properties;
+using Brisebois.WindowsAzure.Sql.Queries;
 using Brisebois.WindowsAzure.TableStorage;
 using Microsoft.WindowsAzure;
 
@@ -28,36 +28,41 @@ namespace Brisebois.WindowsAzure.Sql
             this.absoluteMaxSize = absoluteMaxSize;
         }
 
-        protected override void Execute()
+        protected override async void Execute()
         {
             var bd = CloudConfigurationManager.GetSetting("DatabaseConnectionString");
-            const string sp = "EXEC [dbo].[GetDatabaseSizeRecommendation] @databasename = {0}";
 
-            var recommendation = ReliableModel.Query(model => model.Database.SqlQuery<DatabaseSizeRecommendation>(
-                                        sp,
-                                        databaseName)
-                                        .FirstOrDefault(), () => new EmptyDbContext(bd));
+            var query = new GetDatabaseSizeRecommendation(databaseName);
+            
+            var recommendation = await Database<EmptyDbContext>
+                                    .Model(() => new EmptyDbContext(bd))
+                                    .WithCache()
+                                    .QueryAsync(query);
 
-            ReportRecommendations(recommendation);
+            DatabaseSizeRecommendation databaseSizeRecommendation = recommendation;
 
-            if (recommendation.CurrentMaxSize == recommendation.MaxSize)
+            ReportRecommendations(databaseSizeRecommendation);
+
+            if (databaseSizeRecommendation.CurrentMaxSize == databaseSizeRecommendation.MaxSize)
                 return;
-            if (recommendation.CurrentMaxSize == absoluteMaxSize)
+            if (databaseSizeRecommendation.CurrentMaxSize == absoluteMaxSize)
                 return;
-            if (recommendation.MaxSize > absoluteMaxSize)
+            if (databaseSizeRecommendation.MaxSize > absoluteMaxSize)
                 return;
 
             Report(Resources.SqlDatabaseAutoScaler_Applying_Recommendations);
 
             var m = CloudConfigurationManager.GetSetting("MasterDatabaseConnectionString");
 
-            ReliableModel.DoWithoutTransaction(model => model.Database.ExecuteSqlCommand("ALTER DATABASE ["
+            var result = Database<EmptyDbContext>.Model(() => new EmptyDbContext(m))
+                                    .DoWithoutTransactionAsync(model => model.Database.ExecuteSqlCommand("ALTER DATABASE ["
                                                                                          + databaseName
                                                                                          + "] MODIFY (EDITION='"
-                                                                                         + recommendation.Edition
+                                                                                         + databaseSizeRecommendation.Edition
                                                                                          + "', MAXSIZE="
-                                                                                         + recommendation.MaxSize
-                                                                                         + "GB)"), () => new EmptyDbContext(m));
+                                                                                         + databaseSizeRecommendation.MaxSize
+                                                                                         + "GB)"));
+            result.Wait();
         }
 
         private void ReportRecommendations(DatabaseSizeRecommendation recommendation)
