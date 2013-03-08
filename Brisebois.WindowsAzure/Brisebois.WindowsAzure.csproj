@@ -93,6 +93,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Spatial, Version=5.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -112,6 +113,8 @@
     <Compile Include="Blobs\BlobCompressor.cs" />
     <Compile Include="Blobs\BlobSnapshotCleaner.cs" />
     <Compile Include="DelayCalculator.cs" />
+    <Compile Include="TableStorage\CloudTableQueryCache.cs" />
+    <Compile Include="TableStorage\CloudTableQueryExtensions.cs" />
     <Compile Include="TableStorage\DynamicEntity.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IntervalTask.cs" />
@@ -136,7 +139,7 @@
     <Compile Include="Sql\ReliableModel.cs" />
     <Compile Include="TableStorage\CloudTableQuery.cs" />
     <Compile Include="TableStorage\Entry.cs" />
-    <Compile Include="TableStorage\GetTopLogEntriesForPartition.cs" />
+    <Compile Include="TableStorage\GetTopEntriesForPartition.cs" />
     <Compile Include="TableStorage\Logger.cs" />
     <Compile Include="Sql\ReliableBulkWriter.cs" />
     <Compile Include="Rest\HttpTransientErrorDetectionStrategy.cs" />

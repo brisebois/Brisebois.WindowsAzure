@@ -34,7 +34,7 @@ namespace Brisebois.WindowsAzure.TableStorage
             return Task.Run(() =>
                 {
                     var reader = new TableStorageReader(TableName);
-                    var query = new GetTopLogEntriesForPartition<Entry>(partition, count);
+                    var query = new GetTopEntriesForPartition<Entry>(partition, count);
                     return reader.Execute(query);
                 });
         }

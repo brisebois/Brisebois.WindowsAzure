@@ -6,26 +6,27 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Brisebois.WindowsAzure.TableStorage
 {
-    public class TableStorageReader
+public class TableStorageReader
+{
+    private readonly CloudStorageAccount storageAccount;
+    private readonly CloudTableClient tableClient;
+    private readonly CloudTable tableReference;
+
+    public TableStorageReader(string tableName)
     {
-        private readonly CloudStorageAccount storageAccount;
-        private readonly CloudTableClient tableClient;
-        private readonly CloudTable tableReference;
-
-        public TableStorageReader(string tableName)
-        {
-            storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
-            tableClient = storageAccount.CreateCloudTableClient();
-            tableReference = tableClient.GetTableReference(tableName);
-            tableReference.CreateIfNotExists();
-        }
-
-        public ICollection<TEntity> Execute<TEntity>(CloudTableQuery<TEntity> query)
-        {
-            if (query == null)
-                throw new ArgumentNullException("query");
-
-            return query.Execute(tableReference);
-        }
+        var cs = CloudConfigurationManager.GetSetting("StorageConnectionString");
+        storageAccount = CloudStorageAccount.Parse(cs);
+        tableClient = storageAccount.CreateCloudTableClient();
+        tableReference = tableClient.GetTableReference(tableName);
+        tableReference.CreateIfNotExists();
     }
+
+    public ICollection<TEntity> Execute<TEntity>(CloudTableQuery<TEntity> query)
+    {
+        if (query == null)
+            throw new ArgumentNullException("query");
+
+        return query.Execute(tableReference);
+    }
+}
 }
