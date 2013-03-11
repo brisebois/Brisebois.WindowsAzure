@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Data.Entity;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace Brisebois.WindowsAzure.Sql
 {
-    public abstract class BaseDatabaseQuery<TModel>
-        where TModel : DbContext
+    public abstract class BaseDatabaseQuery
     {
-        protected abstract string GenerateCacheHint();
+        protected virtual string GenerateCacheHint()
+        {
+            return string.Empty;
+        }
 
-        protected string MakeCacheKeyHash(string queryCacheHint)
+        protected static string MakeCacheKeyHash(string queryCacheHint)
         {
             if (string.IsNullOrWhiteSpace(queryCacheHint))
                 throw new ArgumentNullException("queryCacheHint");
@@ -26,13 +27,6 @@ namespace Brisebois.WindowsAzure.Sql
 
                 return Convert.ToBase64String(computeHash);
             }
-        }
-        
-        public string CacheHint(TModel model)
-        {
-            var query = GenerateCacheHint();
-            var cs = model.Database.Connection.ConnectionString;
-            return MakeCacheKeyHash(query + cs);
         }
     }
 }
