@@ -152,7 +152,7 @@
     <Compile Include="TableStorage\Entry.cs" />
     <Compile Include="TableStorage\Queries\GetTopEntriesForPartition.cs" />
     <Compile Include="TableStorage\Logger.cs" />
-    <Compile Include="Sql\ReliableBulkWriter.cs" />
+    <Compile Include="Sql\BulkWriter.cs" />
     <Compile Include="Rest\HttpTransientErrorDetectionStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queues\QueueWorker.cs" />

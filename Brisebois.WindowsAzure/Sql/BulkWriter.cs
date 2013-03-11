@@ -13,7 +13,7 @@ namespace Brisebois.WindowsAzure.Sql
     /// <summary>
     /// Details: http://alexandrebrisebois.wordpress.com/2013/02/16/using-sqlbulkcopy-to-insert-massive-amounts-of-data-into-windows-azure-sql-database/
     /// </summary>
-    public class ReliableBulkWriter
+    public class BulkWriter
     {
         const int MaxRetry = 5;
         const int DelayMs = 100;
@@ -22,7 +22,7 @@ namespace Brisebois.WindowsAzure.Sql
         private readonly Dictionary<string, string> tableMap;
         private readonly string connString;
 
-        public ReliableBulkWriter(string tableName,
+        public BulkWriter(string tableName,
                                   Dictionary<string, string> tableMap)
         {
             this.tableName = tableName;
@@ -47,7 +47,7 @@ namespace Brisebois.WindowsAzure.Sql
             }
             catch (Exception ex)
             {
-                Logger.Add("ReliableBulkWriter", "Exception", ex.ToString());
+                Logger.Add("BulkWriter", "Exception", ex.ToString());
                 throw;
             }
         }
