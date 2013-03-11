@@ -4,7 +4,7 @@ using System.Linq;
 namespace Brisebois.WindowsAzure.Sql.Queries
 {
     public class GetDatabaseSizeRecommendation
-        : DatabaseScalarQuery<DatabaseSizeRecommendation, EmptyDbContext>
+        : DatabaseScalarDatabaseQuery<DatabaseSizeRecommendation, EmptyDbContext>
     {
         private readonly string databaseName;
 

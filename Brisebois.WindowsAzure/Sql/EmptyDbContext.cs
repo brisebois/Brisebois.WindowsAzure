@@ -6,13 +6,13 @@ namespace Brisebois.WindowsAzure.Sql
     {
         public EmptyDbContext()
         {
-
+            Database.SetInitializer<EmptyDbContext>(null);
         }
 
         public EmptyDbContext(string connectionString)
             : base(connectionString)
         {
-
+            Database.SetInitializer<EmptyDbContext>(null);
         }
     }
 }

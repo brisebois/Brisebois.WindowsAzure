@@ -113,6 +113,7 @@
     <Compile Include="Blobs\BlobCompressor.cs" />
     <Compile Include="Blobs\BlobSnapshotCleaner.cs" />
     <Compile Include="DelayCalculator.cs" />
+    <Compile Include="Sql\BaseDatabaseQuery.cs" />
     <Compile Include="Sql\DatabaseQuery.cs" />
     <Compile Include="Sql\DatabaseScalarQuery.cs" />
     <Compile Include="Sql\Queries\GetDatabaseSizeRecommendation.cs" />
