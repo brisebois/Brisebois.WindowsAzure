@@ -39,7 +39,7 @@ namespace Brisebois.WindowsAzure.Sql
                                     .WithCache()
                                     .QueryAsync(query);
 
-            DatabaseSizeRecommendation databaseSizeRecommendation = recommendation;
+            var databaseSizeRecommendation = recommendation;
 
             ReportRecommendations(databaseSizeRecommendation);
 

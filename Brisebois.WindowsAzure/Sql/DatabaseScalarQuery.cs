@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Brisebois.WindowsAzure.Sql
 {
-    public abstract class DatabaseScalarDatabaseQuery<TResult, TModel>
+    public abstract class DatabaseScalarQuery<TResult, TModel>
         : BaseDatabaseQuery, IDatabaseQuery<TResult, TModel> 
         where TModel : DbContext
     {

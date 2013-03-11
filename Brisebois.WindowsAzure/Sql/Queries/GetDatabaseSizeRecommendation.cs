@@ -4,7 +4,7 @@ using System.Linq;
 namespace Brisebois.WindowsAzure.Sql.Queries
 {
     public class GetDatabaseSizeRecommendation
-        : DatabaseScalarDatabaseQuery<DatabaseSizeRecommendation, EmptyDbContext>
+        : DatabaseScalarQuery<DatabaseSizeRecommendation, EmptyDbContext>
     {
         private readonly string databaseName;
 
@@ -25,7 +25,7 @@ namespace Brisebois.WindowsAzure.Sql.Queries
 
         protected override string GenerateCacheHint()
         {
-            return SP;
+            return string.Format(SP,databaseName);
         }
     }
 }
