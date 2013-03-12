@@ -120,7 +120,7 @@ namespace Brisebois.WindowsAzure.Sql
                     {
                         action(shortLivedModel);
                     }
-                    
+
                     return Task.FromResult(Resources.Database_Action_Completed);
                 });
         }

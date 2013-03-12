@@ -1,4 +1,7 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 
 namespace Brisebois.WindowsAzure.Sql
@@ -16,9 +19,26 @@ namespace Brisebois.WindowsAzure.Sql
 
         public string CacheHint(TModel model)
         {
-            var query = Query(model) + GenerateCacheHint();
+            var queryString = Query(model).ToString();
+
+            if (Debugger.IsAttached)
+                Trace.WriteLine(string.Format(CultureInfo.InvariantCulture, 
+                                              "{1}Query as String :{1}{0}{1}", 
+                                              queryString, 
+                                              Environment.NewLine));
+
+            var query = queryString + GenerateCacheHint();
             var cs = model.Database.Connection.ConnectionString;
-            return MakeCacheKeyHash(query + cs);
+
+            var queryCacheHint = query + cs;
+
+            if (Debugger.IsAttached)
+                Trace.WriteLine(string.Format(CultureInfo.InvariantCulture, 
+                                              "{1}Query Cache Key Hint :{1}{0}{1}", 
+                                              queryCacheHint, 
+                                              Environment.NewLine));
+
+            return MakeCacheKeyHash(queryCacheHint);
         }
     }
 }

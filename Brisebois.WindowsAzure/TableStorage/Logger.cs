@@ -33,13 +33,13 @@ namespace Brisebois.WindowsAzure.TableStorage
 
         private static Task<ICollection<Entry>> MakeTaskForPartition(string partition, int count)
         {
-            return Task.Run(() =>
-                {
-                    var reader = new TableStorageReader(TableName);
-                    var query = new GetTopEntriesForPartition<Entry>(partition, count);
-                    var cacheItemPolicy = new CacheItemPolicy {AbsoluteExpiration = DateTime.UtcNow.Add(TimeSpan.FromSeconds(30))};
-                    return reader.Execute(query.WithCache(cacheItemPolicy));
-                });
+            var query = new GetTopEntriesForPartition<Entry>(partition, count);
+            var cacheItemPolicy = new CacheItemPolicy { AbsoluteExpiration = DateTime.UtcNow.Add(TimeSpan.FromSeconds(30)) };
+
+            return TableStorageReader
+                        .Table(TableName)
+                        .WithCache(cacheItemPolicy)
+                        .Execute(query);
         }
 
         private static bool isPersisting;

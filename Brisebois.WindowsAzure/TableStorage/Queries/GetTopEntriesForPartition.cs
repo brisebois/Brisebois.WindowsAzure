@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Brisebois.WindowsAzure.TableStorage.Queries
@@ -33,22 +34,21 @@ namespace Brisebois.WindowsAzure.TableStorage.Queries
             cacheKey = MakeCacheKeyHash(queryCacheHint);
         }
 
-        public override ICollection<TEntity> Execute(CloudTable model)
+        public override Task<ICollection<TEntity>> Execute(CloudTable model)
         {
             if (model == null)
                 throw new ArgumentNullException("model");
 
-            var condition = MakePartitionKeyCondition();
+            return Task.Run(() =>
+                        {
+                            var condition = MakePartitionKeyCondition();
 
-            var tableQuery = new TableQuery<TEntity>();
+                            var tableQuery = new TableQuery<TEntity>();
 
-            tableQuery = tableQuery.Where(condition)
-                                    .Take(take);
+                            tableQuery = tableQuery.Where(condition).Take(take);
 
-            var newsItems = model.ExecuteQuery(tableQuery)
-                .ToList();
-
-            return newsItems;
+                            return (ICollection<TEntity>)model.ExecuteQuery(tableQuery).ToList();
+                        });
         }
 
         public override string CacheKey
@@ -59,8 +59,7 @@ namespace Brisebois.WindowsAzure.TableStorage.Queries
         private string MakePartitionKeyCondition()
         {
             var value = tablePartition.ToUpperInvariant();
-            return TableQuery
-                        .GenerateFilterCondition("PartitionKey",
+            return TableQuery.GenerateFilterCondition("PartitionKey",
                                                  QueryComparisons.Equal,
                                                  value);
         }

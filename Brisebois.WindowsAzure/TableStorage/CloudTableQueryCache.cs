@@ -1,14 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Caching;
+using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Brisebois.WindowsAzure.TableStorage
 {
     public class CloudTableQueryCache<TEntity> :
         CloudTableQuery<TEntity>
-        where TEntity : ITableEntity, new()
+        where TEntity : ITableEntity
     {
         private readonly CloudTableQuery<TEntity> query;
         private readonly CacheItemPolicy cacheItemPolicy;
@@ -50,14 +52,31 @@ namespace Brisebois.WindowsAzure.TableStorage
                 cacheItemPolicy = policy;
         }
 
-        public override ICollection<TEntity> Execute(CloudTable model)
+        public override async Task<ICollection<TEntity>> Execute(CloudTable model)
         {
             var cacheKey = query.CacheKey + cacheHint;
 
-            if (cache.Contains(cacheKey))
-                return (ICollection<TEntity>)cache.Get(cacheKey);
+            if (Debugger.IsAttached)
+            {
+                Trace.WriteLine(string.Format(CultureInfo.InvariantCulture,
+                                              "{0} Cache Key: {1}", 
+                                              Environment.NewLine, 
+                                              cacheKey));
+            }
 
-            var entities = query.Execute(model);
+            if (cache.Contains(cacheKey))
+            {
+                if (Debugger.IsAttached)
+                    Trace.WriteLine("Got query result from cache");
+
+                return (ICollection<TEntity>)cache.Get(cacheKey);
+            }
+
+            if (Debugger.IsAttached)
+                Trace.WriteLine("Got query result from table storage");
+
+            var entities = await query.Execute(model)
+                                      .ConfigureAwait(false);
 
             cache.Add(new CacheItem(cacheKey, entities), cacheItemPolicy);
 

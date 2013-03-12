@@ -64,7 +64,8 @@ namespace Brisebois.WindowsAzure.Sql
             if (Debugger.IsAttached)
                 Trace.WriteLine("Query result from server");
 
-            var entities = await model.QueryAsync(query, retryParams);
+            var entities = await model.QueryAsync(query, retryParams)
+                                      .ConfigureAwait(false);
             
             cache.Add(new CacheItem(key, entities), cacheItemPolicy);
 

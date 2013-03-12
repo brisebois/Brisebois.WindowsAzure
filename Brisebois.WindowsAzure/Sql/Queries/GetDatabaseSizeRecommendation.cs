@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 
 namespace Brisebois.WindowsAzure.Sql.Queries
@@ -25,7 +26,7 @@ namespace Brisebois.WindowsAzure.Sql.Queries
 
         protected override string GenerateCacheHint()
         {
-            return string.Format(SP,databaseName);
+            return string.Format(CultureInfo.InvariantCulture,SP,databaseName);
         }
     }
 }

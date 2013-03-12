@@ -36,7 +36,8 @@ namespace Brisebois.WindowsAzure.Rest
         {
             try
             {
-                return await retryPolicy.ExecuteAsync(() => DownloadStringAsync(progress));
+                return await retryPolicy.ExecuteAsync(() => DownloadStringAsync(progress))
+                                        .ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -54,7 +55,8 @@ namespace Brisebois.WindowsAzure.Rest
 
                 client.TraceRequest(address, "GET", progress);
 
-                var responseString = await client.DownloadStringTaskAsync(address);
+                var responseString = await client.DownloadStringTaskAsync(address)
+                                                 .ConfigureAwait(false);
 
                 client.TraceResponse(address, "GET", responseString, progress);
 
@@ -72,7 +74,8 @@ namespace Brisebois.WindowsAzure.Rest
         {
             try
             {
-                return await retryPolicy.ExecuteAsync(() => DownloadStreamAsync(progress));
+                return await retryPolicy.ExecuteAsync(() => DownloadStreamAsync(progress))
+                                        .ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -90,7 +93,8 @@ namespace Brisebois.WindowsAzure.Rest
         {
             try
             {
-                return await retryPolicy.ExecuteAsync(() => DeleteAsync(progress));
+                return await retryPolicy.ExecuteAsync(() => DeleteAsync(progress))
+                                        .ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -138,7 +142,7 @@ namespace Brisebois.WindowsAzure.Rest
 
                         return new MemoryStream(bytes);
                     }
-                });
+                }).ConfigureAwait(false);
 
             return await downloadTask;
         }

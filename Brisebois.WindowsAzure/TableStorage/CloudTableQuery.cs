@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Brisebois.WindowsAzure.TableStorage
 {
-    public abstract class CloudTableQuery<TEntity> : IModelQuery<ICollection<TEntity>, CloudTable>
+    public abstract class CloudTableQuery<TEntity> : IModelQuery<Task<ICollection<TEntity>>, CloudTable>
     {
-        public abstract ICollection<TEntity> Execute(CloudTable model);
+        public abstract Task<ICollection<TEntity>> Execute(CloudTable model);
 
         public abstract string CacheKey { get; }
 

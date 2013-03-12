@@ -125,7 +125,6 @@
     <Compile Include="Sql\IDatabaseWriteModel.cs" />
     <Compile Include="Sql\RetryParams.cs" />
     <Compile Include="TableStorage\CloudTableQueryCache.cs" />
-    <Compile Include="TableStorage\CloudTableQueryExtensions.cs" />
     <Compile Include="TableStorage\DynamicEntity.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IntervalTask.cs" />

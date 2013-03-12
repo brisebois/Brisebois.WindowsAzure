@@ -48,7 +48,8 @@ namespace Brisebois.WindowsAzure.Rest
         {
             try
             {
-                return await restClient.retryPolicy.ExecuteAsync(() => UploadStringAsync("PUT", progress));
+                return await restClient.retryPolicy.ExecuteAsync(() => UploadStringAsync("PUT", progress))
+                                                   .ConfigureAwait(false);
             }
             catch (Exception ex)
             {
