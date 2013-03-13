@@ -54,7 +54,7 @@ namespace Brisebois.WindowsAzure.TableStorage
 
         public override async Task<ICollection<TEntity>> Execute(CloudTable model)
         {
-            var cacheKey = query.CacheKey + cacheHint;
+            var cacheKey = GenerateCacheKey(model);
 
             if (Debugger.IsAttached)
             {
@@ -83,12 +83,13 @@ namespace Brisebois.WindowsAzure.TableStorage
             return entities;
         }
 
-        public override string CacheKey
+        public override string GenerateCacheKey(CloudTable model)
         {
-            get
-            {
-                return GetHashCode().ToString(CultureInfo.InvariantCulture);
-            }
+            if(model == null)
+                throw new ArgumentNullException("model");
+
+            var cacheKey = query.GenerateCacheKey(model) + cacheHint + model.Uri;
+            return MakeCacheKeyHash(cacheKey);
         }
     }
 }

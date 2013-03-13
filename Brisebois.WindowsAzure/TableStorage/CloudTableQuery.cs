@@ -7,28 +7,29 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Brisebois.WindowsAzure.TableStorage
 {
-    public abstract class CloudTableQuery<TEntity> : IModelQuery<Task<ICollection<TEntity>>, CloudTable>
+public abstract class CloudTableQuery<TEntity>
+    : IModelQuery<Task<ICollection<TEntity>>, CloudTable>
+{
+    public abstract Task<ICollection<TEntity>> Execute(CloudTable model);
+
+    public abstract string GenerateCacheKey(CloudTable model);
+
+    protected string MakeCacheKeyHash(string queryCacheHint)
     {
-        public abstract Task<ICollection<TEntity>> Execute(CloudTable model);
+        if(string.IsNullOrWhiteSpace(queryCacheHint))
+            throw new ArgumentNullException("queryCacheHint");
 
-        public abstract string CacheKey { get; }
-
-        protected string MakeCacheKeyHash(string queryCacheHint)
+        using (var unmanaged = new SHA1CryptoServiceProvider())
         {
-            if(string.IsNullOrWhiteSpace(queryCacheHint))
-                throw new ArgumentNullException("queryCacheHint");
+            var bytes = Encoding.UTF8.GetBytes(queryCacheHint);
 
-            using (var unmanaged = new SHA1CryptoServiceProvider())
-            {
-                var bytes = Encoding.UTF8.GetBytes(queryCacheHint);
-
-                var computeHash = unmanaged.ComputeHash(bytes);
+            var computeHash = unmanaged.ComputeHash(bytes);
                 
-                if (computeHash.Length == 0)
-                    return string.Empty;
+            if (computeHash.Length == 0)
+                return string.Empty;
                 
-                return Convert.ToBase64String(computeHash);
-            }
+            return Convert.ToBase64String(computeHash);
         }
     }
+}
 }
