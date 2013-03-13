@@ -9,6 +9,9 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Brisebois.WindowsAzure.TableStorage
 {
+    /// <summary>
+    /// Details: http://alexandrebrisebois.wordpress.com/2013/03/06/inserting-modifying-large-amounts-of-data-in-windows-azure-table-storage-service/
+    /// </summary>
     public class TableStorageWriter
     {
         private const int BatchSize = 100;
@@ -24,11 +27,13 @@ namespace Brisebois.WindowsAzure.TableStorage
 
             storageAccount = CloudStorageAccount.Parse(cs);
 
-            var tableReference = MakeTableReference();
-
-            tableReference.CreateIfNotExists();
-
             operations = new ConcurrentQueue<Tuple<ITableEntity, TableOperation>>();
+        }
+
+        public void CreateIfNotExist()
+        {
+            var tableReference = MakeTableReference();
+            tableReference.CreateIfNotExists();
         }
 
         private CloudTable MakeTableReference()

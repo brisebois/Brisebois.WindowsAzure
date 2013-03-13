@@ -8,6 +8,9 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Brisebois.WindowsAzure.TableStorage
 {
+    /// <summary>
+    /// Details: http://alexandrebrisebois.wordpress.com/2013/03/12/persisting-data-in-windows-azure-table-storage-service/
+    /// </summary>
     public class CloudTableQueryCache<TEntity> :
         CloudTableQuery<TEntity>
         where TEntity : ITableEntity
@@ -24,7 +27,7 @@ namespace Brisebois.WindowsAzure.TableStorage
         public CloudTableQueryCache(CloudTableQuery<TEntity> query)
             : this(query, null)
         {
-        
+
         }
 
         public CloudTableQueryCache(CloudTableQuery<TEntity> query,
@@ -41,7 +44,7 @@ namespace Brisebois.WindowsAzure.TableStorage
             this.query = query;
             this.cacheHint = cacheHint;
 
-            if(policy== null)
+            if (policy == null)
                 cacheItemPolicy = new CacheItemPolicy
                 {
                     AbsoluteExpiration = DateTime
@@ -59,8 +62,8 @@ namespace Brisebois.WindowsAzure.TableStorage
             if (Debugger.IsAttached)
             {
                 Trace.WriteLine(string.Format(CultureInfo.InvariantCulture,
-                                              "{0} Cache Key: {1}", 
-                                              Environment.NewLine, 
+                                              "{0} Cache Key: {1}",
+                                              Environment.NewLine,
                                               cacheKey));
             }
 
@@ -85,7 +88,7 @@ namespace Brisebois.WindowsAzure.TableStorage
 
         public override string GenerateCacheKey(CloudTable model)
         {
-            if(model == null)
+            if (model == null)
                 throw new ArgumentNullException("model");
 
             var cacheKey = query.GenerateCacheKey(model) + cacheHint + model.Uri;

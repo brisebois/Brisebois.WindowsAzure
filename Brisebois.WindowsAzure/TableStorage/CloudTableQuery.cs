@@ -7,29 +7,32 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Brisebois.WindowsAzure.TableStorage
 {
-public abstract class CloudTableQuery<TEntity>
-    : IModelQuery<Task<ICollection<TEntity>>, CloudTable>
-{
-    public abstract Task<ICollection<TEntity>> Execute(CloudTable model);
-
-    public abstract string GenerateCacheKey(CloudTable model);
-
-    protected string MakeCacheKeyHash(string queryCacheHint)
+    /// <summary>
+    /// Details: http://alexandrebrisebois.wordpress.com/2013/03/12/persisting-data-in-windows-azure-table-storage-service/
+    /// </summary>
+    public abstract class CloudTableQuery<TEntity>
+        : IModelQuery<Task<ICollection<TEntity>>, CloudTable>
     {
-        if(string.IsNullOrWhiteSpace(queryCacheHint))
-            throw new ArgumentNullException("queryCacheHint");
+        public abstract Task<ICollection<TEntity>> Execute(CloudTable model);
 
-        using (var unmanaged = new SHA1CryptoServiceProvider())
+        public abstract string GenerateCacheKey(CloudTable model);
+
+        protected string MakeCacheKeyHash(string queryCacheHint)
         {
-            var bytes = Encoding.UTF8.GetBytes(queryCacheHint);
+            if (string.IsNullOrWhiteSpace(queryCacheHint))
+                throw new ArgumentNullException("queryCacheHint");
 
-            var computeHash = unmanaged.ComputeHash(bytes);
-                
-            if (computeHash.Length == 0)
-                return string.Empty;
-                
-            return Convert.ToBase64String(computeHash);
+            using (var unmanaged = new SHA1CryptoServiceProvider())
+            {
+                var bytes = Encoding.UTF8.GetBytes(queryCacheHint);
+
+                var computeHash = unmanaged.ComputeHash(bytes);
+
+                if (computeHash.Length == 0)
+                    return string.Empty;
+
+                return Convert.ToBase64String(computeHash);
+            }
         }
     }
-}
 }

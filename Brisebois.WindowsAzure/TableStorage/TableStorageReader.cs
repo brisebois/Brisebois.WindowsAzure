@@ -9,81 +9,84 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Brisebois.WindowsAzure.TableStorage
 {
-public class TableStorageReader
-{
-  private readonly CloudStorageAccount storageAccount;
-  private readonly CloudTableClient tableClient;
-  private readonly CloudTable tableReference;
-  private CacheItemPolicy cachePolicy;
-  private string cacheHint = string.Empty;
+    /// <summary>
+    /// Details: http://alexandrebrisebois.wordpress.com/2013/03/12/persisting-data-in-windows-azure-table-storage-service/
+    /// </summary>
+    public class TableStorageReader
+    {
+        private readonly CloudStorageAccount storageAccount;
+        private readonly CloudTableClient tableClient;
+        private readonly CloudTable tableReference;
+        private CacheItemPolicy cachePolicy;
+        private string cacheHint = string.Empty;
 
-  private TableStorageReader(string tableName)
-  {
-      var cs = CloudConfigurationManager.GetSetting("StorageConnectionString");
-      storageAccount = CloudStorageAccount.Parse(cs);
-      tableClient = storageAccount.CreateCloudTableClient();
-      tableReference = tableClient.GetTableReference(tableName);
+        private TableStorageReader(string tableName)
+        {
+            var cs = CloudConfigurationManager.GetSetting("StorageConnectionString");
+            storageAccount = CloudStorageAccount.Parse(cs);
+            tableClient = storageAccount.CreateCloudTableClient();
+            tableReference = tableClient.GetTableReference(tableName);
 
-      var tableServicePoint = ServicePointManager
-                               .FindServicePoint(storageAccount.TableEndpoint);
-      tableServicePoint.UseNagleAlgorithm = false;
-  }
+            var tableServicePoint = ServicePointManager
+                                     .FindServicePoint(storageAccount.TableEndpoint);
+            tableServicePoint.UseNagleAlgorithm = false;
+        }
 
-  public TableStorageReader CreateIfNotExist()
-  {
-      tableReference.CreateIfNotExists();
-      return this;
-  }
+        public TableStorageReader CreateIfNotExist()
+        {
+            tableReference.CreateIfNotExists();
+            return this;
+        }
 
-  public async Task<ICollection<TEntity>> 
-      Execute<TEntity>(CloudTableQuery<TEntity> query)
-      where TEntity : ITableEntity
-  {
-      if (query == null)
-          throw new ArgumentNullException("query");
+        public async Task<ICollection<TEntity>>
+            Execute<TEntity>(CloudTableQuery<TEntity> query)
+            where TEntity : ITableEntity
+        {
+            if (query == null)
+                throw new ArgumentNullException("query");
 
-      return await Task.Run(() =>
-          {
-              if (cachePolicy == null)
-                  return query.Execute(tableReference);
+            return await Task.Run(() =>
+                {
+                    if (cachePolicy == null)
+                        return query.Execute(tableReference);
 
-              var cached = new CloudTableQueryCache<TEntity>(query, 
-                                                             cachePolicy, 
-                                                             cacheHint);
-              return cached.Execute(tableReference);
-          });
-  }
+                    var cached = new CloudTableQueryCache<TEntity>(query,
+                                                                   cachePolicy,
+                                                                   cacheHint);
+                    return cached.Execute(tableReference);
+                });
+        }
 
-  public static TableStorageReader Table(string tableName)
-  {
-      return new TableStorageReader(tableName);
-  }
+        public static TableStorageReader Table(string tableName)
+        {
+            return new TableStorageReader(tableName);
+        }
 
-  //Cache for 1 minute
-  public TableStorageReader WithCache()
-  {
-      var policy = new CacheItemPolicy
-          {
-              AbsoluteExpiration = DateTime.UtcNow.AddMinutes(1d)
-          };
-      return WithCache(policy);
-  }
+        //Cache for 1 minute
+        public TableStorageReader WithCache()
+        {
+            var policy = new CacheItemPolicy
+                {
+                    AbsoluteExpiration = DateTime.UtcNow.AddMinutes(1d)
+                };
+            return WithCache(policy);
+        }
 
-  public TableStorageReader WithCache(CacheItemPolicy policy)
-  {
-      return WithCache(policy, string.Empty);
-  }
+        public TableStorageReader WithCache(CacheItemPolicy policy)
+        {
+            return WithCache(policy, string.Empty);
+        }
 
-  public TableStorageReader WithCache(CacheItemPolicy policy,
-                                      string cacheKey)
-  {
-      if (policy == null) throw new ArgumentNullException("policy");
-      if (cacheKey == null) throw new ArgumentNullException("cacheKey");
+        public TableStorageReader WithCache(CacheItemPolicy policy,
+                                            string cacheKey)
+        {
+            if (policy == null) throw new ArgumentNullException("policy");
+            if (cacheKey == null) throw new ArgumentNullException("cacheKey");
 
-      cachePolicy = policy;
-      cacheHint = cacheKey;
+            cachePolicy = policy;
+            cacheHint = cacheKey;
 
-      return this;
-  }
-}
+            return this;
+        }
+    }
 }
