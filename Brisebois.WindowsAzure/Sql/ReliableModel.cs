@@ -9,7 +9,7 @@ namespace Brisebois.WindowsAzure.Sql
     /// <summary>
     /// Details: http://alexandrebrisebois.wordpress.com/2012/10/15/using-the-exponential-back-off-transient-error-detection-strategy/
     /// </summary>
-    [Obsolete("Replaced by 'Database'", false)]
+    [Obsolete("Replaced by 'Database'", true)]
     public static class ReliableModel
     {
         public static void Do<TModel>(Action<TModel> action)
