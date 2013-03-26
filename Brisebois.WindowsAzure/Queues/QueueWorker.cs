@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
@@ -39,9 +40,12 @@ namespace Brisebois.WindowsAzure.Queues
 
             client = account.CreateCloudQueueClient();
 
+            ServicePointManager.FindServicePoint(account.QueueEndpoint).UseNagleAlgorithm = false;
+
             client.RetryPolicy = new ExponentialRetry(new TimeSpan(0, 0, 0, 2), 10);
 
             queue = client.GetQueueReference(queueName);
+
             queue.CreateIfNotExists();
 
             poisonQueue = client.GetQueueReference(poisonQueueName);

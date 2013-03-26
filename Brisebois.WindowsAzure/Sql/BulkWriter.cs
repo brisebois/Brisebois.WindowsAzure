@@ -23,7 +23,7 @@ namespace Brisebois.WindowsAzure.Sql
         private readonly string connString;
 
         public BulkWriter(string tableName,
-                                  Dictionary<string, string> tableMap)
+                          Dictionary<string, string> tableMap)
         {
             this.tableName = tableName;
             this.tableMap = tableMap;

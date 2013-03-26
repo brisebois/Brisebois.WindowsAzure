@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.RetryPolicies;
@@ -26,6 +27,8 @@ namespace Brisebois.WindowsAzure.TableStorage
             var cs = CloudConfigurationManager.GetSetting("StorageConnectionString");
 
             storageAccount = CloudStorageAccount.Parse(cs);
+
+            ServicePointManager.FindServicePoint(storageAccount.TableEndpoint).UseNagleAlgorithm = false;
 
             operations = new ConcurrentQueue<Tuple<ITableEntity, TableOperation>>();
         }

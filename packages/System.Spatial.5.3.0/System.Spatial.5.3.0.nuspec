@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>System.Spatial</id>
+    <version>5.3.0</version>
+    <title>System.Spatial</title>
+    <authors>Microsoft Corporation</authors>
+    <owners>Microsoft Corporation</owners>
+    <licenseUrl>http://go.microsoft.com/?linkid=9809688</licenseUrl>
+    <projectUrl>http://go.microsoft.com/fwlink/?LinkId=220868</projectUrl>
+    <iconUrl>http://static.tumblr.com/hgchgxz/9ualgdf98/icon.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Contains a number of classes and canonical methods that facilitate geography and geometry spatial operations. Targets .NET 4.0 or Silverlight 4.0. Localized for CHS, CHT, DEU, ESN, FRA, ITA, JPN, KOR and RUS.</description>
+    <releaseNotes>What's new in this release:
+
+Instance annotations on feeds and entries (JSON only)
+Instance annotations are an extensibility feature in OData feeds that allow OData requests and responses to be marked up with annotations that target feeds, single entities (entries), properties, etc. WCF Data Services 5.3.0 supports instance annotations in JSON payloads. Support for instance annotations in Atom payloads is forthcoming.
+
+Action Binding Parameter Overloads
+The OData specification allows actions with the same name to be bound to multiple different types. WCF Data Services 5.3 enables actions for different types to have the same name (for instance, both a Folder and a File may have a Rename action). This new support includes both serialization of actions with the same name as well as resolution of an action’s binding parameter using the new IDataServiceActionResolver interface.
+
+Modification of the Request URL
+For scenarios where it is desirable to modify request URLs before the request is processed, WCF Data Services 5.3 adds support for modifying the request URL in the OnStartProcessingRequest method. Service authors can modify both the request URL as well as URLs for the various parts of a batch request.
+
+This release also contains the following noteworthy bug fixes:
+- Fixes an issue where code gen produces invalid code in VB
+- Fixes an issue where code gen fails when the Precision facet is set on spatial and time properties
+- Fixes an issue where code gen was incorrectly generating the INotifyPropertyChanged code for subtypes in different namespaces
+- Fixes an issue where odata.type was not written consistently in fullmetadata mode for JSON
+- Fixes an issue where a valid form of Edm.DateTime could not be parsed
+- Fixes an issue where the WCF DS client would not send type names for open properties on insert/update
+- Fixes an issue where the client Execute() method would fail for a particular payload with DataServiceVersion=1.0
+- Fixes an issue where type information was omitted in JSON fullmetadata payloads
+- Fixes an issue where open property type information was omitted in JSON update/insert requests
+- Fixes an issue where it was not possible to navigate relationships on entities with multi-part keys</releaseNotes>
+    <tags>wcf data services odata odatalib edmlib spatial ado.net ef entity framework open protocol wcfds wcfdataservices dataservices</tags>
+    <references>
+      <reference file="System.Spatial.dll" />
+      <reference file="System.Spatial.SL.dll" />
+    </references>
+  </metadata>
+</package>

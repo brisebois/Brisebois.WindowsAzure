@@ -27,9 +27,7 @@ namespace Brisebois.WindowsAzure.TableStorage
             tableClient = storageAccount.CreateCloudTableClient();
             tableReference = tableClient.GetTableReference(tableName);
 
-            var tableServicePoint = ServicePointManager
-                                     .FindServicePoint(storageAccount.TableEndpoint);
-            tableServicePoint.UseNagleAlgorithm = false;
+            ServicePointManager.FindServicePoint(storageAccount.TableEndpoint).UseNagleAlgorithm = false;
         }
 
         public TableStorageReader CreateIfNotExist()
