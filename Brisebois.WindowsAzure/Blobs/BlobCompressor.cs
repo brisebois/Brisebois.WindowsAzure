@@ -9,14 +9,14 @@ using Microsoft.WindowsAzure.Storage.Blob;
 namespace Brisebois.WindowsAzure.Blobs
 {
     /// <summary>
-    /// Details: http://alexandrebrisebois.wordpress.com/2013/02/20/windows-azure-blob-storage-polling-task/
+    ///     Details: http://alexandrebrisebois.wordpress.com/2013/02/20/windows-azure-blob-storage-polling-task/
     /// </summary>
     public class BlobCompressor : BlobContainerWorker
     {
         private const string CompressedFlag = "Compressed";
 
         /// <summary>
-        /// Keep Blobs compressed within a specific container
+        ///     Keep Blobs compressed within a specific container
         /// </summary>
         /// <param name="connectionString">Cloud Connection String</param>
         /// <param name="containerName">Blob Container Name</param>
@@ -32,9 +32,9 @@ namespace Brisebois.WindowsAzure.Blobs
 
         protected override void OnExecuting(CloudBlockBlob workItem)
         {
-            if(workItem ==null)
+            if (workItem == null)
                 throw new ArgumentNullException("workItem");
-            
+
             if (workItem.Metadata.ContainsKey(CompressedFlag))
                 return;
 
@@ -56,29 +56,29 @@ namespace Brisebois.WindowsAzure.Blobs
         protected override ICollection<IListBlobItem> TryGetWork()
         {
             return base.TryGetWork()
-                       .Cast<CloudBlockBlob>()
-                       .Where(b => !b.Metadata.ContainsKey(CompressedFlag))
-                       .Cast<IListBlobItem>()
-                       .ToList();
+                .Cast<CloudBlockBlob>()
+                .Where(b => !b.Metadata.ContainsKey(CompressedFlag))
+                .Cast<IListBlobItem>()
+                .ToList();
         }
 
         private static void SetCompressedFlag(CloudBlockBlob workItem)
         {
             workItem.Metadata.Add(new KeyValuePair<string, string>(CompressedFlag,
-                                                                   "true"));
+                "true"));
             workItem.SetMetadata();
         }
 
         protected static void CompressStream(Stream compressedStream,
-                                      Stream blobStream)
+            Stream blobStream)
         {
-            if(compressedStream==null)
+            if (compressedStream == null)
                 throw new ArgumentNullException("blobStream");
-            if(blobStream== null)
+            if (blobStream == null)
                 throw new ArgumentNullException("blobStream");
 
             blobStream.Position = 0;
-            using (var compressionStream = MakeCompressionStream(compressedStream))
+            using (GZipStream compressionStream = MakeCompressionStream(compressedStream))
             {
                 blobStream.CopyTo(compressionStream);
                 compressedStream.Position = 0;
