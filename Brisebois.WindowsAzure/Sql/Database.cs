@@ -3,8 +3,8 @@ using System.Runtime.Caching;
 using System.Threading.Tasks;
 using System.Transactions;
 using Brisebois.WindowsAzure.Properties;
+using Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling;
 using Microsoft.Practices.EnterpriseLibrary.WindowsAzure.TransientFaultHandling.SqlAzure;
-using Microsoft.Practices.TransientFaultHandling;
 
 namespace Brisebois.WindowsAzure.Sql
 {

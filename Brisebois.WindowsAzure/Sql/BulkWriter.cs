@@ -4,8 +4,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using Brisebois.WindowsAzure.TableStorage;
+using Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling;
 using Microsoft.Practices.EnterpriseLibrary.WindowsAzure.TransientFaultHandling.SqlAzure;
-using Microsoft.Practices.TransientFaultHandling;
 using Microsoft.WindowsAzure;
 
 namespace Brisebois.WindowsAzure.Sql

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using Microsoft.Practices.TransientFaultHandling;
+using Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling;
 
 namespace Brisebois.WindowsAzure.Rest
 {

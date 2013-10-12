@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <appSettings>
+    <add key="StorageConnectionString" value="[Your Storage Connection String]" />
+    <add key="DatabaseConnectionString" value="[Your SQL Database Connection String]" />
+    <add key="MasterDatabaseConnectionString" value="[Your SQL Database Connection String]" />
+  </appSettings>
+  <system.net>
+    <connectionManagement>
+      <add address="*" maxconnection="1000" />
+    </connectionManagement>
+  </system.net>
+</configuration>

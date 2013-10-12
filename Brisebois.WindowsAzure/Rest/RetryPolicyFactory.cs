@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.Practices.TransientFaultHandling;
+using Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling;
 
 namespace Brisebois.WindowsAzure.Rest
 {
@@ -17,7 +17,7 @@ namespace Brisebois.WindowsAzure.Rest
         public static RetryPolicy MakeHttpRetryPolicy(int count,
                                                       bool notFoundIsTransient)
         {
-            var strategy = new HttpTransientErrorDetectionStrategy(notFoundIsTransient);
+            ITransientErrorDetectionStrategy strategy = new HttpTransientErrorDetectionStrategy(notFoundIsTransient);
             return Exponential(strategy, count);
         }
         
