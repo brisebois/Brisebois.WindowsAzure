@@ -1,35 +1,38 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <NDepend AppName="Brisebois.WindowsAzure" Platform="DotNet">
   <OutputDir KeepHistoric="False" KeepXmlFiles="False">C:\Users\Alexandre\Documents\GitHub\Brisebois.WindowsAzure\NDependOut</OutputDir>
   <Assemblies>
     <Name>Brisebois.WindowsAzure</Name>
+    <Name>Brisebois.WindowsAzure.Storage</Name>
+    <Name>Brisebois.WindowsAzure.Database</Name>
   </Assemblies>
   <FrameworkAssemblies>
     <Name>mscorlib</Name>
     <Name>System</Name>
     <Name>Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling</Name>
     <Name>Quartz</Name>
+    <Name>System.Core</Name>
+    <Name>Microsoft.WindowsAzure.Configuration</Name>
     <Name>Microsoft.WindowsAzure.Storage</Name>
     <Name>System.Runtime.Caching</Name>
-    <Name>System.Core</Name>
-    <Name>EntityFramework</Name>
-    <Name>Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.Data</Name>
-    <Name>System.Transactions</Name>
-    <Name>System.Data</Name>
-    <Name>Microsoft.WindowsAzure.Configuration</Name>
-    <Name>Newtonsoft.Json</Name>
-    <Name>Microsoft.Practices.EnterpriseLibrary.Common</Name>
     <Name>System.Reactive.Linq</Name>
     <Name>System.Reactive.Core</Name>
+    <Name>Newtonsoft.Json</Name>
+    <Name>System.Data</Name>
+    <Name>Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.Data</Name>
+    <Name>System.Transactions</Name>
+    <Name>EntityFramework</Name>
   </FrameworkAssemblies>
   <Dirs>
-    <Dir>C:\Users\Alexandre\Documents\GitHub\Brisebois.WindowsAzure\Brisebois.WindowsAzure\bin\Debug</Dir>
     <Dir>C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319</Dir>
     <Dir>C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\WPF</Dir>
+    <Dir>C:\Users\Alexandre\Documents\GitHub\Brisebois.WindowsAzure\Brisebois.WindowsAzure\bin\Debug</Dir>
+    <Dir>C:\Users\Alexandre\Documents\GitHub\Brisebois.WindowsAzure\Brisebois.WindowsAzure.Storage\bin\Debug</Dir>
+    <Dir>C:\Users\Alexandre\Documents\GitHub\Brisebois.WindowsAzure\Brisebois.WindowsAzure.Database\bin\Debug</Dir>
   </Dirs>
-  <Report Kind="0" SectionsEnabled="45055" XslPath="" Flags="64512" />
-  <BuildComparisonSetting ProjectMode="DontCompare" BuildMode="MostRecentAnalysisResultAvailable" ProjectFileToCompareWith="" BuildFileToCompareWith="" NDaysAgo="1" FocusOnRecentRulesViolations="False" />
-  <BaselineInUISetting ProjectMode="DontCompare" BuildMode="MostRecentAnalysisResultAvailable" ProjectFileToCompareWith="" BuildFileToCompareWith="" NDaysAgo="1" FocusOnRecentRulesViolations="False" />
+  <Report Kind="0" SectionsEnabled="65535" XslPath="" Flags="64512" />
+  <BuildComparisonSetting ProjectMode="CurrentProject" BuildMode="NDaysAgoAnalysisResult" ProjectFileToCompareWith="C:\Users\Alexandre\Documents\GitHub\Brisebois.WindowsAzure\Brisebois.WindowsAzure.ndproj" BuildFileToCompareWith="C:\Users\Alexandre\Documents\GitHub\Brisebois.WindowsAzure\NDependOut\VisualNDepend.bin" NDaysAgo="1" FocusOnRecentRulesViolations="False" />
+  <BaselineInUISetting ProjectMode="CurrentProject" BuildMode="MostRecentAnalysisResultAvailable" ProjectFileToCompareWith="C:\Users\Alexandre\Documents\GitHub\Brisebois.WindowsAzure\Brisebois.WindowsAzure.ndproj" BuildFileToCompareWith="C:\Users\Alexandre\Documents\GitHub\Brisebois.WindowsAzure\NDependOut\VisualNDepend.bin" NDaysAgo="1" FocusOnRecentRulesViolations="False" />
   <CoverageFiles UncoverableAttribute="" />
   <TrendMetrics UseCustomLog="False" LogRecurrence="3" LogLabel="2" UseCustomDir="False" CustomDir="">
     <Chart Name="Lines of Code" ShowInReport="True">
@@ -70,8 +73,7 @@
       <Serie MetricName="# Third-Party Fields Used" MetricUnit="Fields" Color="#FFFFD700" ChartType="Line" ScaleExp="1" />
     </Chart>
   </TrendMetrics>
-  <SourceFileRebasing FromPath="" ToPath="" />
-  <Queries>
+  <SourceFileRebasing FromPath="" ToPath="" /><Queries>
     <Group Name="Code Quality" Active="True" ShownInReport="False">
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="True"><![CDATA[// <Name>Types too big - critical</Name>
 warnif count > 0 from t in JustMyCode.Types where 
@@ -4034,6 +4036,4 @@ warnif count > 0 from n in Application.Namespaces where
 select new { n, n.NbLinesOfCode } ]]></Query>
       </Group>
     </Group>
-  </Queries>
-  <WarnFilter />
-</NDepend>
+  </Queries></NDepend>
