@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<InfoWarnings>
+  <Info>01/10/2014 11:44:00 Begin full analysis with NDepend v5.1.0.8180</Info>
+  <Warning>Can't load the assembly {EntityFramework}:
+Can't find the .NET assembly {EntityFramework} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Newtonsoft.Json}:
+Can't find the .NET assembly {Newtonsoft.Json} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {System.Reactive.Linq}:
+Can't find the .NET assembly {System.Reactive.Linq} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {System.Reactive.Core}:
+Can't find the .NET assembly {System.Reactive.Core} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Info>Concurrent mode</Info>
+  <Warning>Assembly {Microsoft.WindowsAzure.Storage} doesn't contain any type.</Warning>
+  <Warning>Assembly {System.Runtime.Caching} doesn't contain any type.</Warning>
+  <Warning>Assembly {Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.Data} doesn't contain any type.</Warning>
+  <Warning>Assembly {System.Transactions} doesn't contain any type.</Warning>
+  <Warning>Assembly {System.Data} doesn't contain any type.</Warning>
+  <Warning>Assembly {Microsoft.Practices.EnterpriseLibrary.Common} doesn't contain any type.</Warning>
+  <Info>.NET Assemblies loaded from {C:\Users\Alexandre\Documents\GitHub\Brisebois.WindowsAzure\Brisebois.WindowsAzure\bin\Debug} 
+   Brisebois.WindowsAzure.dll   v2.0.0.0
+   Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.dll   v6.0.0.0
+   Quartz.dll   v2.2.1.400
+   Microsoft.WindowsAzure.Storage.dll   v2.0.0.0
+   Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.Data.dll   v6.0.0.0
+   Microsoft.WindowsAzure.Configuration.dll   v2.0.0.0
+   Microsoft.Practices.EnterpriseLibrary.Common.dll   v6.0.0.0</Info>
+  <Info>.NET Assemblies loaded from {C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319} 
+   mscorlib.dll   v4.0.0.0
+   System.dll   v4.0.0.0
+   System.Runtime.Caching.dll   v4.0.0.0
+   System.Core.dll   v4.0.0.0
+   System.Transactions.dll   v4.0.0.0
+   System.Data.dll   v4.0.0.0</Info>
+  <Warning>No application or third party assembly found in folder {C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\WPF}</Warning>
+  <Info>20 source files parsed ; all source files found ; all source files in-sync with PDB</Info>
+  <Info>0 code rule has been extracted from code.</Info>
+  <Info>No dependency cycle detected in assemblies referencement graph.</Info>
+  <Info>01/10/2014 11:44:02 NDepend analysis done. Duration: 00:02</Info>
+</InfoWarnings>

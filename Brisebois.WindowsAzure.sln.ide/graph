@@ -1,0 +1,10 @@
+﻿<Solution Format="0.0.0.3">
+  <Version>2014-01-10T16:43:26.6116278Z</Version>
+  <Project Path="C:\Users\Alexandre\Documents\GitHub\Brisebois.WindowsAzure\Brisebois.WindowsAzure.Storage\Brisebois.WindowsAzure.Storage.csproj">
+    <Reference Path="C:\Users\Alexandre\Documents\GitHub\Brisebois.WindowsAzure\Brisebois.WindowsAzure\Brisebois.WindowsAzure.csproj" />
+  </Project>
+  <Project Path="C:\Users\Alexandre\Documents\GitHub\Brisebois.WindowsAzure\Brisebois.WindowsAzure.Database\Brisebois.WindowsAzure.Database.csproj">
+    <Reference Path="C:\Users\Alexandre\Documents\GitHub\Brisebois.WindowsAzure\Brisebois.WindowsAzure\Brisebois.WindowsAzure.csproj" />
+  </Project>
+  <Project Path="C:\Users\Alexandre\Documents\GitHub\Brisebois.WindowsAzure\Brisebois.WindowsAzure\Brisebois.WindowsAzure.csproj" />
+</Solution>

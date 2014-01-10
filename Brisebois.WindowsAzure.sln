@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brisebois.WindowsAzure", "B
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Brisebois.Database", "Brisebois.Database\Brisebois.Database.sqlproj", "{EE03DA81-D176-4F3D-8F88-5514BEADC13D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brisebois.WindowsAzure.Storage", "Brisebois.WindowsAzure.Storage\Brisebois.WindowsAzure.Storage.csproj", "{511A1054-DF6B-4DC2-B05D-DB85F2B5E435}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brisebois.WindowsAzure.Database", "Brisebois.WindowsAzure.Database\Brisebois.WindowsAzure.Database.csproj", "{BCF43C09-BFD2-4CDF-96F2-633161BD98D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{EE03DA81-D176-4F3D-8F88-5514BEADC13D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE03DA81-D176-4F3D-8F88-5514BEADC13D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EE03DA81-D176-4F3D-8F88-5514BEADC13D}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{511A1054-DF6B-4DC2-B05D-DB85F2B5E435}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{511A1054-DF6B-4DC2-B05D-DB85F2B5E435}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{511A1054-DF6B-4DC2-B05D-DB85F2B5E435}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{511A1054-DF6B-4DC2-B05D-DB85F2B5E435}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCF43C09-BFD2-4CDF-96F2-633161BD98D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCF43C09-BFD2-4CDF-96F2-633161BD98D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCF43C09-BFD2-4CDF-96F2-633161BD98D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCF43C09-BFD2-4CDF-96F2-633161BD98D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

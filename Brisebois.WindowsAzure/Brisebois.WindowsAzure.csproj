@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Brisebois.WindowsAzure</RootNamespace>
     <AssemblyName>Brisebois.WindowsAzure</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\..\documents\visual studio 2012\Projects\LimitingDownloadAttempsOnLinks\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,15 +44,6 @@
     <Reference Include="Common.Logging">
       <HintPath>..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Data.OData, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
@@ -75,44 +67,22 @@
       <HintPath>..\packages\EnterpriseLibrary.TransientFaultHandling.WindowsAzure.Storage.6.0.1304.1\lib\NET45\Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Projects\WindowsAzure.ReservationServiceTest\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.1.0\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.1.0.2, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Quartz, Version=2.2.1.400, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WindowsAzure.Storage.2.1.0.2\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\..\..\TFS\SmartUse\Prototype\WindowsAzure.UpdateDomain.FailOver\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Quartz">
-      <HintPath>..\..\..\Projects\WindowsAzure.ReservationServiceTest\packages\Quartz.2.2\lib\net40\Quartz.dll</HintPath>
+      <HintPath>..\packages\Quartz.2.2.1\lib\net40\Quartz.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Reactive.Core">
-      <HintPath>..\..\..\Projects\WindowsAzure.ReservationServiceTest\packages\Rx-Core.2.1.30214.0\lib\Net45\System.Reactive.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Interfaces">
-      <HintPath>..\..\..\Projects\WindowsAzure.ReservationServiceTest\packages\Rx-Interfaces.2.1.30214.0\lib\Net45\System.Reactive.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Linq">
-      <HintPath>..\..\..\Projects\WindowsAzure.ReservationServiceTest\packages\Rx-Linq.2.1.30214.0\lib\Net45\System.Reactive.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.PlatformServices">
-      <HintPath>..\..\..\Projects\WindowsAzure.ReservationServiceTest\packages\Rx-PlatformServices.2.1.30214.0\lib\Net45\System.Reactive.PlatformServices.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
-    </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
@@ -122,29 +92,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Blobs\BlobContainerWorker.cs" />
-    <Compile Include="Blobs\BlobCompressor.cs" />
-    <Compile Include="Blobs\BlobSnapshotCleaner.cs" />
-    <Compile Include="Blobs\BlobLeaseManager.cs" />
-    <Compile Include="Blobs\JobReservationService.cs" />
-    <Compile Include="Blobs\ShardedBlobContainer.cs" />
     <Compile Include="DelayCalculator.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Queues\ShardedQueue.cs" />
-    <Compile Include="Queues\ShardedQueueMessage.cs" />
-    <Compile Include="Sql\BaseDatabaseQuery.cs" />
-    <Compile Include="Sql\DatabaseQuery.cs" />
-    <Compile Include="Sql\DatabaseScalarQuery.cs" />
-    <Compile Include="Sql\Queries\GetDatabaseSizeRecommendation.cs" />
-    <Compile Include="Sql\IDatabaseCachedReadModel.cs" />
-    <Compile Include="Sql\IDatabaseQuery.cs" />
-    <Compile Include="Sql\Database.cs" />
-    <Compile Include="Sql\DatabaseCache.cs" />
-    <Compile Include="Sql\IDatabaseReadModel.cs" />
-    <Compile Include="Sql\IDatabaseWriteModel.cs" />
-    <Compile Include="Sql\RetryParams.cs" />
-    <Compile Include="TableStorage\CloudTableQueryCache.cs" />
-    <Compile Include="TableStorage\DynamicEntity.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IntervalTask.cs" />
     <Compile Include="IntervalTaskException.cs" />
@@ -162,23 +111,11 @@
     <Compile Include="Rest\StreamRestClient.cs" />
     <Compile Include="Rest\StringRestClient.cs" />
     <Compile Include="Rest\WebClientExtensions.cs" />
-    <Compile Include="Sql\DatabaseSizeRecommendation.cs" />
-    <Compile Include="Sql\EmptyDbContext.cs" />
-    <Compile Include="Sql\SqlDatabaseAutoScaler.cs" />
-    <Compile Include="TableStorage\CloudTableQuery.cs" />
-    <Compile Include="TableStorage\Entry.cs" />
-    <Compile Include="TableStorage\Queries\GetTopEntriesForPartition.cs" />
-    <Compile Include="TableStorage\Logger.cs" />
-    <Compile Include="Sql\BulkWriter.cs" />
     <Compile Include="Rest\HttpTransientErrorDetectionStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Queues\QueueWorker.cs" />
     <Compile Include="Rest\RestClient.cs" />
     <Compile Include="Rest\RetryPolicyFactory.cs" />
-    <Compile Include="TableStorage\Queries\GetWindowsAzureDiagnostics.cs" />
-    <Compile Include="TableStorage\TableStorageWriter.cs" />
     <Compile Include="IWorkerProcess.cs" />
-    <Compile Include="TableStorage\TableStorageReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
